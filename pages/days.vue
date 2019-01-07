@@ -1,6 +1,7 @@
 <template>
     <div class="container">
-        <div class="row p-5">
+        <navbar></navbar>
+        <div class="row p-5 container-top">
             <div class="col-md-8 offset-md-2">
                 <table class="table table-striped">
                     <thead>
@@ -20,11 +21,11 @@
                 </table>    
             </div>
         </div>
-        <div class="row p-3">
+        <div class="row p-3 container-bottom">
             <div class="col-md-4 offset-md-7">
                 <div class="row p-2">
                     <div class="col-md-8">
-                        <b-button class="w-100">Update</b-button>
+                        <b-button class="w-100 test">Update</b-button>
                     </div>
                 </div>
             </div>

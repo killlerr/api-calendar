@@ -1,0 +1,15 @@
+
+:root {
+    --ada-dawasa-grey: #464545;
+    --ada-dawasa-pink: #f8365b;
+
+}
+
+.container-top{
+    background-color: silver;
+}
+
+.container-bottom{
+    background: var(--ada-dawasa-grey);
+    color: silver
+}
