@@ -28,7 +28,7 @@
 .container-bottom{
     background: var(--ada-dawasa-grey);
     color: silver;
-    height: 12vh
+    height: 12vh;
 }
 
 .alert {

@@ -3,9 +3,9 @@
              dismissible
              :show="showDismissibleAlert"
              @dismissed="showDismissibleAlert=false">
-    <h4 class="alert-heading">Well done!</h4>
+    <h4 class="alert-heading">Overwrite Alert!</h4>
     <p>
-        Aww yeah, you successfully read this important alert message.
+        You successfully overwrite the databse.Set dates to the year: {{year}}
         This example text is going to run a bit longer so that you can see
         how spacing within an alert works with this kind of content.
     </p>
@@ -21,7 +21,8 @@ export default {
     auth: false,
   data () {
     return {
-      showDismissibleAlert: false
+      showDismissibleAlert: false,
+      year: ''
     }
   },
   created() {
