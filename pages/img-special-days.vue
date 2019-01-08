@@ -2,13 +2,14 @@
     <div class="container">
         <navbar></navbar>
         <div class="row p-5 container-top">
-            <div class="col-md-8 offset-md-2">
+            <div class="col-md-10 offset-md-1">
                 <table class="table table-striped">
                     <thead>
                         <tr>
                         <th scope="col">#</th>
                         <th scope="col">Special Day</th>
                         <th scope="col">Image</th>
+                        <th scope="col">Description</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -18,9 +19,18 @@
                         <td>
                             <div>
                                 <div class="file-upload-form">
-                                    Upload an image file:
-                                    <input type="file" accept="image/*">
+                                    <b-form-file v-model="file" :state="Boolean(file)" placeholder="Choose a file..."></b-form-file>
                                 </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-area-wrap">
+                                <b-form-textarea id="textarea1"
+                                                v-model="text"
+                                                placeholder="Enter something"
+                                                :rows="2"
+                                                :max-rows="6">
+                                </b-form-textarea>
                             </div>
                         </td>
                         </tr>

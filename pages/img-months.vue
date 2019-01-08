@@ -18,8 +18,7 @@
                         <td>
                             <div>
                                 <div class="file-upload-form">
-                                    Upload an image file:
-                                    <input type="file" accept="image/*">
+                                    <b-form-file v-model="file" :state="Boolean(file)" placeholder="Choose a file..."></b-form-file>
                                 </div>
                             </div>
                         </td>
@@ -45,7 +44,7 @@ export default {
     auth: false,
     data() {
         return{
-            imageData: "",
+            file: null,
             months: [
             {
                 id: 1,
@@ -71,13 +70,12 @@ export default {
                 id: 12,
                 name: 'test 3'   
             }],
-        }
+            text: ''        }
     }
 }
 </script>
 
 <style>
-
 
 
 </style>

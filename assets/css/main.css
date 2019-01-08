@@ -7,9 +7,11 @@
 
 .container-top{
     background-color: silver;
+    min-height: 80vh;
 }
 
 .container-bottom{
     background: var(--ada-dawasa-grey);
-    color: silver
+    color: silver;
+    height: 12vh
 }

@@ -17,7 +17,7 @@
 
             <b-nav-item-dropdown text='User' right>
                 <b-dropdown-item href="/profile">Profile</b-dropdown-item>
-                <b-dropdown-item href="#">Signout</b-dropdown-item>
+                <b-dropdown-item href="/login">Signout</b-dropdown-item>
             </b-nav-item-dropdown>
             </b-navbar-nav>
 

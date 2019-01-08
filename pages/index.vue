@@ -8,9 +8,7 @@
                         <label>Select Year: &nbsp</label>
                     </div>
                     <div class="col-md-8">
-                        <b-form-select v-bind="selected" :options="options" class="mb-3" />
-                        <!-- <b-button @click="arrYear"></b-button>
-                        <p v-for="year in years" v-bind:key="year.value"></p> -->
+                        <b-form-select v-bind="selected" :options="options" class="mb-3" size="sm" />
                     </div>
                 </div>
                 <div class="row p-2">
@@ -32,15 +30,15 @@
                         <label>Monthly Image: &nbsp</label>
                     </div>
                     <div class="col-md-8">
-                        <b-button class="w-100">Update</b-button>
+                        <b-button class="w-100" href="/img-months">Update</b-button>
                     </div>
                 </div>
                 <div class="row p-2">
                     <div class="col-md-4">
-                        <label>Special-day Image: &nbsp</label>
+                        <label>Special-day Image: &nbsp </label>
                     </div>
                     <div class="col-md-8">
-                        <b-button class="w-100">Update</b-button>
+                        <b-button class="w-100" href="/img-special-days">Update</b-button>
                     </div>
                 </div>
             </div>
@@ -51,7 +49,6 @@
 </template>
 
 <script>
-// import Navbar from '~/components/Navbar.vue'
 
 export default {
   auth: false,
@@ -59,32 +56,26 @@ export default {
         return {
             selected: null,
             options: [ 
-                {value: 2018, text: '2018'},
-                {value: 2019, text: '2019'},
-                {value: 2020, text: '2020'},
+                {value: + ((new Date().getFullYear())- 2), text: String((new Date().getFullYear())- 2)},
+                {value: + ((new Date().getFullYear())- 1), text: String((new Date().getFullYear())- 1)},
+                {value: + (new Date().getFullYear()), text: String(new Date().getFullYear())},
+                {value: + ((new Date().getFullYear())+ 1), text: String((new Date().getFullYear())+ 1)},
+                {value: + ((new Date().getFullYear())+ 2), text: String((new Date().getFullYear())+ 2)}
             ],
-            years: [],
+            years: []
 
         }
     },
-    components:{
-        // Navbar
+    methods: {
+            arrYear(){
+                for (var n = 0; n <=6; n++){
+                   this.options[n] =`${JSON.stringify((new Date().getFullYear())- 2 + n)}`
+                }
+        }
     },
-    computed: {
-        // arrYear(){
-        //         var today = new Date().getFullYear();
-        //         // var years = [];
-        //         this.years[0] = today - 1;
-        //         this.years[1] = today;
-        //         this.years[2] = today + 1;
-        //         // var options = new Array();
-        //         // for (var i = 0; i < theArray.length; i++){
-        //         //    options[i] =`value: ${this.years[i]}, text: ${this.years[i]}`
-        //         // }                    
-                
-        //         return years;
-        //         // console.log(years[0],years[1],years[2])
-        // }
+    beforeMount() {
+        this.arrYear();
+        console.log('beforeMout hook is called');
     }
 }
 </script>
