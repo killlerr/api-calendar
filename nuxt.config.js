@@ -40,7 +40,8 @@ module.exports = {
   plugins: [
     '~/plugins/navbar.js',
     '~/plugins/dangerAlert.js',
-    '~/plugins/successAlert.js'
+    '~/plugins/successAlert.js',
+    '~/plugins/warningAlert.js'
   ],
 
   /*

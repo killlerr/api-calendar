@@ -2,6 +2,7 @@
     <div class="container">
         <navbar></navbar>
         <div class="row p-5 container-top">
+            <SuccessAlert></SuccessAlert>
             <div class="col-md-8 offset-md-2">
                 <table class="table table-striped">
                     <thead>
@@ -31,7 +32,7 @@
             <div class="col-md-4 offset-md-7">
                 <div class="row p-2">
                     <div class="col-md-8">
-                        <b-button class="w-100">Update</b-button>
+                        <b-button class="w-100" @click="successAlert">Update</b-button>
                     </div>
                 </div>
             </div>
@@ -46,31 +47,69 @@ export default {
         return{
             file: null,
             months: [
-            {
-                id: 1,
-                name: 'test 1'   
-            },
-            {
-                id: 2,
-                name: 'test 2'   
-            },
-            {
-                id: 3,
-                name: 'test 2'   
-            },
-            {
-                id: 4,
-                name: 'test 2'   
-            },
-            {
-                id: 5,
-                name: 'test 2'   
-            },
-            {
-                id: 12,
-                name: 'test 3'   
-            }],
-            text: ''        }
+                {
+                    id: 1,
+                    name: 'January'   
+                },
+                {
+                    id: 2,
+                    name: 'February'   
+                },
+                {
+                    id: 3,
+                    name: 'March'   
+                },
+                {
+                    id: 4,
+                    name: 'April'   
+                },
+                {
+                    id: 5,
+                    name: 'May'   
+                },
+                {
+                    id: 6,
+                    name: 'June'   
+                },
+                {
+                    id: 7,
+                    name: 'July'   
+                },
+                {
+                    id: 8,
+                    name: 'August'   
+                },
+                {
+                    id: 9,
+                    name: 'September'   
+                },
+                {
+                    id: 10,
+                    name: 'October'   
+                },
+                {
+                    id: 11,
+                    name: 'November'   
+                },
+                {
+                    id: 12,
+                    name: 'December'   
+                }
+            ],
+            text: '',
+            updateDetails:{
+                "state": true,
+                "msg": "data_successfully_inserted"
+            }       
+        }
+    },
+    methods: {
+        successAlert(){
+            if(this.updateDetails.msg === 'data_successfully_inserted'){
+                this.alert = true;
+                this.$nuxt.$emit('ALERT_SUCCESS', this.alert);                          
+            }
+        },    
     }
 }
 </script>

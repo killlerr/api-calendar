@@ -3,16 +3,9 @@
              dismissible
              :show="showDismissibleAlert"
              @dismissed="showDismissibleAlert=false">
-    <h4 class="alert-heading">Overwrite Alert!</h4>
-    <p>
-        You successfully overwrite the databse.Set dates to the year: {{year}}
-        This example text is going to run a bit longer so that you can see
-        how spacing within an alert works with this kind of content.
-    </p>
+    <h4 class="alert-heading">Database deleted!</h4>
     <hr>
-    <p class="mb-0">
-        Whenever you need to, be sure to use margin utilities to keep things nice and tidy.
-    </p>
+    <p class="mb-0">Deleted all data for the selected year.</p>
     </b-alert>
 </template>
 

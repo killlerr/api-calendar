@@ -1,11 +1,11 @@
 <template>
-    <b-alert variant="success"
+    <b-alert variant="warning"
              dismissible
              :show="showDismissibleAlert"
              @dismissed="showDismissibleAlert=false">
-    <h4 class="alert-heading">Database Updated!</h4>
+    <h4 class="alert-heading">Overwrite Alert!</h4>
     <hr>
-    <p class="mb-0">You successfully updated the databse.</p>
+    <p class="mb-0">Selected year already contain data.Updating data will overwrite the database.</p>
     </b-alert>
 </template>
 
@@ -14,18 +14,19 @@ export default {
     auth: false,
   data () {
     return {
-      showDismissibleAlert: false
+      showDismissibleAlert: false,
+      year: ''
     }
   },
   created() {
     // $on method will receive the updated count value from the sender component
-    this.$nuxt.$on('ALERT_SUCCESS', data => {
+    this.$nuxt.$on('ALERT_WARNING', data => {
       this.showDismissibleAlert = data;
     });
   },
   beforeDestroy() {
       // $off method will turned off the event listner
-      this.$nuxt.$off('ALERT_SUCCESS');
+      this.$nuxt.$off('ALERT_WARNING');
   }
 }
 </script>

@@ -32,7 +32,7 @@
 }
 
 .alert {
-    position: absolute;
+    position: fixed;
     z-index: 2;
     right: 14rem;
     left: 14rem;
@@ -45,4 +45,8 @@
 
 .alert-danger {
     background-color: #f8d7daef;
+}
+
+.alert-warning {
+    background-color: #fff3cdef;
 }
