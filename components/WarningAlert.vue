@@ -5,7 +5,7 @@
              @dismissed="showDismissibleAlert=false">
     <h4 class="alert-heading">Overwrite Alert!</h4>
     <hr>
-    <p class="mb-0">Selected year already contain data.Updating data will overwrite the database.</p>
+    <p class="mb-0">Selected year already contain data. Data can overwrite.</p>
     </b-alert>
 </template>
 

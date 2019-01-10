@@ -29,9 +29,9 @@
             </div>
         </div>
         <div class="row p-3 container-bottom">
-            <div class="col-md-4 offset-md-7">
+            <div class="col-sm-4 offset-sm-7">
                 <div class="row p-2">
-                    <div class="col-md-8">
+                    <div class="col-sm-8">
                         <b-button class="w-100" @click="successAlert">Update</b-button>
                     </div>
                 </div>

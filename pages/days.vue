@@ -37,13 +37,13 @@
             </div>
         </div>
         <div class="row p-3 container-bottom">
-            <div class="col-md-8 offset-md-2">
+            <div class="col-sm-8 offset-sm-2">
                 <div class="row p-2">
-                    <div class="col-md-4 offset-md-4">
+                    <div class="col-sm-4 offset-sm-4">
                         <b-button class="w-100" @click="dangerAlert">Delete</b-button>
                     </div>
-                    <div class="col-md-4">
-                        <b-button class="w-100" @click="successAlert">Update</b-button>
+                    <div class="col-sm-4">
+                        <b-button class="w-100" @click="onUpdate">Update</b-button>
                     </div>
                 </div>
             </div>
@@ -205,6 +205,12 @@ export default {
         dangerAlert(){
             this.alert = true;
             this.$nuxt.$emit('ALERT_DANGER', this.alert); 
+        },
+        onUpdate(){
+            this.specialDays.forEach(element => {
+                // console.log(element.id +' - '+ element.name +' - '+ element.date);
+                console.log(element);
+            });
         }        
     },
     beforeMount(){
