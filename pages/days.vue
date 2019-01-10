@@ -3,10 +3,19 @@
         <navbar></navbar>
         <div class="row p-5 container-top">
             <SuccessAlert></SuccessAlert>
+            <DangerAlert></DangerAlert>
+            <WarningAlert></WarningAlert>
             <div class="col-md-8 offset-md-2">
                 <div class="row">
-                    <div class="col-md-4 offset-md-4">
-                        <p class="lead">Selected Year: {{selectedYear}}</p>
+                    <div class="col-md-7 offset-md-2 pb-4">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <p class="lead">Selected Year:</p>
+                            </div>
+                            <div class="col-md-7">
+                                <b-form-select :options="options" v-model="selectedYear" @input="setYear" class="form-control"></b-form-select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <table class="table table-striped">
@@ -28,10 +37,13 @@
             </div>
         </div>
         <div class="row p-3 container-bottom">
-            <div class="col-md-4 offset-md-7">
+            <div class="col-md-8 offset-md-2">
                 <div class="row p-2">
-                    <div class="col-md-8">
-                        <b-button class="w-100 test" @click="successAlert">Update</b-button>
+                    <div class="col-md-4 offset-md-4">
+                        <b-button class="w-100" @click="dangerAlert">Delete</b-button>
+                    </div>
+                    <div class="col-md-4">
+                        <b-button class="w-100" @click="successAlert">Update</b-button>
                     </div>
                 </div>
             </div>
@@ -40,7 +52,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
   import flatPickr from 'vue-flatpickr-component';
   import 'flatpickr/dist/flatpickr.css';
 
@@ -160,13 +171,12 @@ export default {
             currentDate: new Date(),
             config:{
                 minDate: "today",
-                maxDate: new Date().fp_incr(14), // 14 days from now
+                maxDate: new Date().fp_incr(-1), // 14 days from now
                 dateFormat: "Y-m-d",
-            }    
+            },
+            options: [2000],
+            selectedYear: null    
         }
-    },
-    computed: {
-        ...mapState(['selectedYear'])
     },
     components: {
         flatPickr
@@ -184,10 +194,21 @@ export default {
         setYear(){
             this.config.maxDate = this.selectedYear + '-12-31';
             this.config.minDate = this.selectedYear + '-01-01';
-        }    
+            this.alert = true;
+            this.$nuxt.$emit('ALERT_WARNING', this.alert);
+        },
+        arrYear(){
+            for (var n = 0; n <=6; n++){
+                this.options[n] =`${JSON.stringify((new Date().getFullYear())- 2 + n)}`
+            }
+        },
+        dangerAlert(){
+            this.alert = true;
+            this.$nuxt.$emit('ALERT_DANGER', this.alert); 
+        }        
     },
     beforeMount(){
-        this.setYear()
+        this.arrYear()
     },
 
 
