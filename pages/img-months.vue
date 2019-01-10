@@ -13,17 +13,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr  v-for="month in months" v-bind:key="month.id">
-                        <th scope="row">{{month.id}}</th>
-                        <td>{{month.name}}</td>
-                        <td>
-                            <div>
-                                <div class="file-upload-form">
-                                    <b-form-file v-model="file" :state="Boolean(file)" placeholder="Choose a file..."></b-form-file>
+                        <!-- <tr  v-for="month in months" v-bind:key="month.id">
+                            <th scope="row">{{month.id}}</th>
+                            <td>{{month.name}}</td>
+                            <td>
+                                <div>
+                                    <div class="file-upload-form">
+                                        <b-form-file v-model="file" :state="Boolean(file)" placeholder="Choose a file..."></b-form-file>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        </tr>
+                            </td>
+                        </tr> -->
+                        <RowMonths
+                                v-for="month in months" v-bind:key="month.id"
+                                :id = month.id
+                                :name = month.name
+                                :file = file
+                                ></RowMonths>
                     </tbody>
                 </table>    
             </div>
@@ -41,6 +47,8 @@
 </template>
 
 <script>
+import RowMonths from '../components/RowMonths'
+
 export default {
     auth: false,
     data() {
@@ -110,6 +118,9 @@ export default {
                 this.$nuxt.$emit('ALERT_SUCCESS', this.alert);                          
             }
         },    
+    },
+    components: {
+        RowMonths
     }
 }
 </script>

@@ -28,10 +28,15 @@
                     </thead>
                     <tbody>
                         <tr  v-for="(specialDay, i) in specialDays" v-bind:key="specialDay.id">
-                        <th scope="row">{{specialDay.id}}</th>
-                        <td>{{specialDay.name}}</td>
-                        <td><flat-pickr v-model="dates[i]" class="form-control" :config="config" placeholder="Select date"></flat-pickr></td>                          
+                            <th scope="row">{{specialDay.id}}</th>
+                            <td>{{specialDay.name}}</td>
+                            <td><flat-pickr v-model="dates[i]" class="form-control" :config="config" placeholder="Select date"></flat-pickr></td>                          
                         </tr>
+                        <!-- <RowDays v-for="specialDay in specialDays" v-bind:key="specialDay.id"
+                                :id = specialDay.id
+                                :name = specialDay.name
+                                :date = date
+                                ></RowDays> -->
                     </tbody>
                 </table>    
             </div>
@@ -52,8 +57,11 @@
 </template>
 
 <script>
-  import flatPickr from 'vue-flatpickr-component';
-  import 'flatpickr/dist/flatpickr.css';
+
+import flatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
+
+import RowDays from '../components/RowDays.vue'
 
 export default {
     auth: false,
@@ -63,7 +71,8 @@ export default {
             "specialDays": [
                 {
                     "id": 1,
-                    "name": "Tamil Thai Pongal Day"
+                    "name": "Tamil Thai Pongal Day",
+                    "date": "2010-10-10"
                 },
                 {
                     "id": 2,
@@ -179,7 +188,8 @@ export default {
         }
     },
     components: {
-        flatPickr
+        flatPickr,
+        RowDays
     },
     methods: {
         successAlert(){
