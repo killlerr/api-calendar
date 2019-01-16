@@ -10,7 +10,9 @@
                         <th scope="col">#</th>
                         <th scope="col">Special Day</th>
                         <th scope="col">Image</th>
-                        <th scope="col">Description</th>
+                        <th scope="col">Description Sinhala</th>
+                        <th scope="col">Description English</th>
+                        <th scope="col">Description Tamil</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,7 +42,9 @@
                                     :id="specialDay.id"
                                     :name="specialDay.name"
                                     :file="specialDay.file"
-                                    :text="specialDay.text"
+                                    :textSi="specialDay.description_si"
+                                    :textEn="specialDay.description_en"
+                                    :textTa="specialDay.description_ta"
                         >
                         </RowSpecialDay>
                     </tbody>
@@ -68,7 +72,9 @@ export default {
         return{
             imageData: "",
             file: null,
-            text: '',
+            textSi: '',
+            textEn: '',
+            textTa: '',
             "specialDays": [
                 {
                     "id": 1,

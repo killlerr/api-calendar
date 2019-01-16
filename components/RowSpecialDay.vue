@@ -12,7 +12,27 @@
         <td>
             <div class="text-area-wrap">
                 <b-form-textarea id="textarea1"
-                                v-model="text"
+                                v-model="textSi"
+                                placeholder="Enter something"
+                                :rows="2"
+                                :max-rows="6">
+                </b-form-textarea>
+            </div>
+        </td>
+        <td>
+            <div class="text-area-wrap">
+                <b-form-textarea id="textarea2"
+                                v-model="textEn"
+                                placeholder="Enter something"
+                                :rows="2"
+                                :max-rows="6">
+                </b-form-textarea>
+            </div>
+        </td>
+        <td>
+            <div class="text-area-wrap">
+                <b-form-textarea id="textarea3"
+                                v-model="textTa"
                                 placeholder="Enter something"
                                 :rows="2"
                                 :max-rows="6">
@@ -24,6 +44,6 @@
 
 <script>
 export default {
-    props: ['id', 'name', 'file', 'text'],
+    props: ['id', 'name', 'file', 'textSi', 'textEn', 'textTa'],
 }
 </script>

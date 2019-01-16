@@ -11,6 +11,9 @@
                         <div class="row">
                             <div class="col-md-5">
                                 <p class="lead">Selected Year:</p>
+                                <div v-if="availability!=null">
+                                <p class="lead">{{availability.state}}</p>
+                                </div>
                             </div>
                             <div class="col-md-7">
                                 <b-form-select :options="options" v-model="selectedYear" @input="setYear" class="form-control"></b-form-select>
@@ -24,19 +27,26 @@
                         <th scope="col">#</th>
                         <th scope="col">Special Day</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Visibility</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr  v-for="(specialDay, i) in specialDays" v-bind:key="specialDay.id">
+                    <tbody v-if ="specialDaysObject!=null">
+                        <!-- <tr  v-for="(specialDay, i) in specialDays" v-bind:key="specialDay.id">
                             <th scope="row">{{specialDay.id}}</th>
                             <td>{{specialDay.name}}</td>
                             <td><flat-pickr v-model="dates[i]" class="form-control" :config="config" placeholder="Select date"></flat-pickr></td>                          
-                        </tr>
-                        <!-- <RowDays v-for="specialDay in specialDays" v-bind:key="specialDay.id"
-                                :id = specialDay.id
-                                :name = specialDay.name
-                                :date = date
-                                ></RowDays> -->
+                            <td> <b-form-checkbox id="checkbox1"
+                                            v-model="status"
+                                            value="true"
+                                            unchecked-value="false">
+                                            </b-form-checkbox></td>                          
+                        </tr> -->
+                        <RowDays  v-for="special_date in specialDaysObject.special_dates" v-bind:key="special_date.id"
+                                :id = special_date.id
+                                :name = special_date.name
+                                :date = special_date.date
+                                :status = status
+                                ></RowDays>
                     </tbody>
                 </table>    
             </div>
@@ -68,109 +78,6 @@ export default {
     data() {
         return{
             imageData: "",
-            "specialDays": [
-                {
-                    "id": 1,
-                    "name": "Tamil Thai Pongal Day",
-                    "date": "2010-10-10"
-                },
-                {
-                    "id": 2,
-                    "name": "Duruthu Full Moon Poya Day"
-                },
-                {
-                    "id": 3,
-                    "name": "National Day"
-                },
-                {
-                    "id": 4,
-                    "name": "Navam Full Moon Poya Day"
-                },
-                {
-                    "id": 5,
-                    "name": "Mahasivarathri Day"
-                },
-                {
-                    "id": 6,
-                    "name": "Madin Full Moon Poya Day"
-                },
-                {
-                    "id": 7,
-                    "name": "Day prior to Sinhala & Tamil New Year Day"
-                },
-                {
-                    "id": 8,
-                    "name": "Sinhala & Tamil New Year Day"
-                },
-                {
-                    "id": 9,
-                    "name": "Bak Full Moon Poya Day"
-                },
-                {
-                    "id": 10,
-                    "name": "Good Friday"
-                },
-                {
-                    "id": 11,
-                    "name": "May Day"
-                },
-                {
-                    "id": 12,
-                    "name": "Vesak Full Moon Poya Day"
-                },
-                {
-                    "id": 13,
-                    "name": "Day following Vesak Full Moon Poya Day"
-                },
-                {
-                    "id": 14,
-                    "name": "Id Ul-Fitr"
-                },
-                {
-                    "id": 15,
-                    "name": "Poson Full Moon Poya Day"
-                },
-                {
-                    "id": 16,
-                    "name": "Esala Full Moon Poya Day"
-                },
-                {
-                    "id": 17,
-                    "name": "Id Ul-Alha"
-                },
-                {
-                    "id": 18,
-                    "name": "Nikini Full Moon Poya Day"
-                },
-                {
-                    "id": 19,
-                    "name": "Binara Full Moon Poya Day"
-                },
-                {
-                    "id": 20,
-                    "name": "Vap Full Moon Poya Day"
-                },
-                {
-                    "id": 21,
-                    "name": "Deepavali"
-                },
-                {
-                    "id": 22,
-                    "name": "Milad un-Nabi"
-                },
-                {
-                    "id": 23,
-                    "name": "Ill Full Moon Poya Day"
-                },
-                {
-                    "id": 24,
-                    "name": "Unduvap Full Moon Poya Day"
-                },
-                {
-                    "id": 25,
-                    "name": "Christmas Day"
-                }
-            ],
             updateDetails:{
                 "state": true,
                 "msg": "data_successfully_inserted"
@@ -184,7 +91,10 @@ export default {
                 dateFormat: "Y-m-d",
             },
             options: [2000],
-            selectedYear: null    
+            selectedYear: null,
+            status: 'true',
+            specialDaysObject: null,
+            availability: null
         }
     },
     components: {
@@ -193,7 +103,7 @@ export default {
     },
     methods: {
         successAlert(){
-            if(this.updateDetails.msg === 'data_successfully_inserted'){
+            if(this.availability.state === 'false'){
                 this.alert = true;
                 this.$nuxt.$emit('ALERT_SUCCESS', this.alert);                          
             }
@@ -204,29 +114,45 @@ export default {
         setYear(){
             this.config.maxDate = this.selectedYear + '-12-31';
             this.config.minDate = this.selectedYear + '-01-01';
-            this.alert = true;
-            this.$nuxt.$emit('ALERT_WARNING', this.alert);
+            this.change();
+            this.dataAvailability();
         },
         arrYear(){
             for (var n = 0; n <=6; n++){
                 this.options[n] =`${JSON.stringify((new Date().getFullYear())- 2 + n)}`
             }
         },
-        dangerAlert(){
-            this.alert = true;
-            this.$nuxt.$emit('ALERT_DANGER', this.alert); 
+        warningAlert(){
+            if(!this.availability.state){
+                this.alert = true;
+                this.$nuxt.$emit('ALERT_WARNING', this.alert);                          
+            }            
         },
         onUpdate(){
             this.specialDays.forEach(element => {
-                // console.log(element.id +' - '+ element.name +' - '+ element.date);
                 console.log(element);
             });
-        }        
+        },
+        async change() {
+            this.$axios.setHeader('Content-Type', 'application/json')          
+            const specialDays = await this.$axios.$get(`http://calendar-app.arimac.digital/dashboard/special_dates/${this.selectedYear}`)
+            this.specialDaysObject = specialDays
+        },
+        async dataAvailability() {
+            this.$axios.setHeader('Content-Type', 'application/json')          
+            const availability = await this.$axios.$get(`http://calendar-app.arimac.digital/dashboard/check_data_available/${this.selectedYear}`)
+            this.availability = availability
+            this.warningAlert();
+        },
+        
     },
     beforeMount(){
         this.arrYear()
     },
+    mounted() {
+        this.updatedSpecialDays = this.specialDays
 
+    }
 
 }
 </script>
