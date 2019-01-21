@@ -15,7 +15,7 @@
                         <th scope="col">Description Tamil</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody v-if="datesImages!==null">
                         <!-- <tr  v-for="specialDay in specialDays" v-bind:key="specialDay.id">
                             <th scope="row">{{specialDay.id}}</th>
                             <td>{{specialDay.name}}</td>
@@ -37,14 +37,14 @@
                                 </div>
                             </td>
                         </tr> -->
-                        <RowSpecialDay v-for="specialDay in specialDays" 
-                                    v-bind:key="specialDay.id"
-                                    :id="specialDay.id"
-                                    :name="specialDay.name"
-                                    :file="specialDay.file"
-                                    :textSi="specialDay.description_si"
-                                    :textEn="specialDay.description_en"
-                                    :textTa="specialDay.description_ta"
+                        <RowSpecialDay v-for="special_dates_and_image in datesImages.special_dates_and_images" 
+                                    v-bind:key="special_dates_and_image.id"
+                                    :id="special_dates_and_image.id"
+                                    :name="special_dates_and_image.name"
+                                    :file="special_dates_and_image.image_url"
+                                    :textSi="special_dates_and_image.description_si"
+                                    :textEn="special_dates_and_image.description_en"
+                                    :textTa="special_dates_and_image.description_ta"
                         >
                         </RowSpecialDay>
                     </tbody>
@@ -70,120 +70,12 @@ export default {
     auth: false,
     data() {
         return{
-            imageData: "",
             file: null,
             textSi: '',
             textEn: '',
             textTa: '',
-            "specialDays": [
-                {
-                    "id": 1,
-                    "name": "Tamil Thai Pongal Day",
-                    "file": 'asdsdsafasds',
-                    "text": 'afdsfsf' 
-                },
-                {
-                    "id": 2,
-                    "name": "Duruthu Full Moon Poya Day"
-                },
-                {
-                    "id": 3,
-                    "name": "National Day"
-                },
-                {
-                    "id": 4,
-                    "name": "Navam Full Moon Poya Day"
-                },
-                {
-                    "id": 5,
-                    "name": "Mahasivarathri Day"
-                },
-                {
-                    "id": 6,
-                    "name": "Madin Full Moon Poya Day"
-                },
-                {
-                    "id": 7,
-                    "name": "Day prior to Sinhala & Tamil New Year Day"
-                },
-                {
-                    "id": 8,
-                    "name": "Sinhala & Tamil New Year Day"
-                },
-                {
-                    "id": 9,
-                    "name": "Bak Full Moon Poya Day"
-                },
-                {
-                    "id": 10,
-                    "name": "Good Friday"
-                },
-                {
-                    "id": 11,
-                    "name": "May Day"
-                },
-                {
-                    "id": 12,
-                    "name": "Vesak Full Moon Poya Day"
-                },
-                {
-                    "id": 13,
-                    "name": "Day following Vesak Full Moon Poya Day"
-                },
-                {
-                    "id": 14,
-                    "name": "Id Ul-Fitr"
-                },
-                {
-                    "id": 15,
-                    "name": "Poson Full Moon Poya Day"
-                },
-                {
-                    "id": 16,
-                    "name": "Esala Full Moon Poya Day"
-                },
-                {
-                    "id": 17,
-                    "name": "Id Ul-Alha"
-                },
-                {
-                    "id": 18,
-                    "name": "Nikini Full Moon Poya Day"
-                },
-                {
-                    "id": 19,
-                    "name": "Binara Full Moon Poya Day"
-                },
-                {
-                    "id": 20,
-                    "name": "Vap Full Moon Poya Day"
-                },
-                {
-                    "id": 21,
-                    "name": "Deepavali"
-                },
-                {
-                    "id": 22,
-                    "name": "Milad un-Nabi"
-                },
-                {
-                    "id": 23,
-                    "name": "Ill Full Moon Poya Day"
-                },
-                {
-                    "id": 24,
-                    "name": "Unduvap Full Moon Poya Day"
-                },
-                {
-                    "id": 25,
-                    "name": "Christmas Day"
-                }
-            ],
-            specialDaysUpdate: [],
-            updateDetails:{
-                "state": true,
-                "msg": "data_successfully_inserted"
-            }          }
+            datesImages: null          
+        }
     },
     methods: {
         successAlert(){
@@ -194,16 +86,20 @@ export default {
         },
         onUpdate(){
             this.specialDays.forEach(element => {
-                // console.log(element.id +' - '+ element.name +' - '+ element.date);
                 console.log(element);
             });
-        }             
+        },
+        async onDatesImages() {
+            this.$axios.setHeader('Content-Type', 'application/json')          
+            const datesImages = await this.$axios.$get(`dashboard/special_dates_and_images`)
+            this.datesImages = datesImages
+        },                 
     },
     components:{
         RowSpecialDay
     },
     mounted(){
-        this.specialDaysUpdate  = this.specialDays;
+        this.onDatesImages();
     }
 }
 </script>

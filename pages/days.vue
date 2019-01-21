@@ -11,9 +11,6 @@
                         <div class="row">
                             <div class="col-md-5">
                                 <p class="lead">Selected Year:</p>
-                                <div v-if="availability!=null">
-                                <p class="lead">{{availability.state}}</p>
-                                </div>
                             </div>
                             <div class="col-md-7">
                                 <b-form-select :options="options" v-model="selectedYear" @input="setYear" class="form-control"></b-form-select>
@@ -30,25 +27,15 @@
                         <th scope="col">Visibility</th>
                         </tr>
                     </thead>
-                    <tbody v-if ="specialDaysObject!=null">
-                        <!-- <tr  v-for="(specialDay, i) in specialDays" v-bind:key="specialDay.id">
-                            <th scope="row">{{specialDay.id}}</th>
-                            <td>{{specialDay.name}}</td>
-                            <td><flat-pickr v-model="dates[i]" class="form-control" :config="config" placeholder="Select date"></flat-pickr></td>                          
-                            <td> <b-form-checkbox id="checkbox1"
-                                            v-model="status"
-                                            value="true"
-                                            unchecked-value="false">
-                                            </b-form-checkbox></td>                          
-                        </tr> -->
-                        <RowDays  v-for="special_date in specialDaysObject.special_dates" v-bind:key="special_date.id"
-                                :id = special_date.id
-                                :name = special_date.name
-                                :date = special_date.date
-                                :status = status
-                                ></RowDays>
+                    <tbody>
+                        <!-- <keep-alive> -->
+                            <RowDays  v-for="(filledSpecialDay, index) in filledSpecialDays" v-bind:key="index"
+                                    :date="filledSpecialDay"
+                                    :selectedYear="selectedYear"
+                                    ></RowDays>
+                        <!-- </keep-alive> -->
                     </tbody>
-                </table>    
+                </table> 
             </div>
         </div>
         <div class="row p-3 container-bottom">
@@ -59,6 +46,7 @@
                     </div>
                     <div class="col-sm-4">
                         <b-button class="w-100" @click="onUpdate">Update</b-button>
+                        <p>{{test}}</p>
                     </div>
                 </div>
             </div>
@@ -77,24 +65,15 @@ export default {
     auth: false,
     data() {
         return{
-            imageData: "",
-            updateDetails:{
-                "state": true,
-                "msg": "data_successfully_inserted"
-            },
-            date: null,
-            dates: [],
-            currentDate: new Date(),
-            config:{
-                minDate: "today",
-                maxDate: new Date().fp_incr(-1), // 14 days from now
-                dateFormat: "Y-m-d",
-            },
             options: [2000],
             selectedYear: null,
             status: 'true',
-            specialDaysObject: null,
-            availability: null
+            filledSpecialDays: null,
+            availability: null,
+            updatedResponse: null,
+            onlyDates: null,
+            updatedSpecialDays: null,
+            test: null
         }
     },
     components: {
@@ -102,18 +81,10 @@ export default {
         RowDays
     },
     methods: {
-        successAlert(){
-            if(this.availability.state === 'false'){
-                this.alert = true;
-                this.$nuxt.$emit('ALERT_SUCCESS', this.alert);                          
-            }
-        },
         dtpSelected(){
             console.log('date selected')
         },
         setYear(){
-            this.config.maxDate = this.selectedYear + '-12-31';
-            this.config.minDate = this.selectedYear + '-01-01';
             this.change();
             this.dataAvailability();
         },
@@ -128,30 +99,55 @@ export default {
                 this.$nuxt.$emit('ALERT_WARNING', this.alert);                          
             }            
         },
+        dangerAlert(){
+            if(!this.availability.state){
+                this.alert = true;
+                this.$nuxt.$emit('ALERT_DANGER', this.alert);                          
+            }            
+        },
+        successAlert(){
+            if(this.updatedResponse.state){
+                this.alert = true;
+                this.$nuxt.$emit('ALERT_SUCCESS', this.alert);                          
+            }
+        },
         onUpdate(){
-            this.specialDays.forEach(element => {
-                console.log(element);
-            });
+            console.log(this.filledSpecialDays)
         },
         async change() {
             this.$axios.setHeader('Content-Type', 'application/json')          
-            const specialDays = await this.$axios.$get(`http://calendar-app.arimac.digital/dashboard/special_dates/${this.selectedYear}`)
-            this.specialDaysObject = specialDays
+            const specialDays = await this.$axios.$get(`dashboard/special_dates/${this.selectedYear}`)
+            this.filledSpecialDays = specialDays.object.special_dates
+            this.updatedSpecialDays = this.filledSpecialDays
         },
         async dataAvailability() {
             this.$axios.setHeader('Content-Type', 'application/json')          
-            const availability = await this.$axios.$get(`http://calendar-app.arimac.digital/dashboard/check_data_available/${this.selectedYear}`)
+            const availability = await this.$axios.$get(`dashboard/check_data_available/${this.selectedYear}`)
             this.availability = availability
             this.warningAlert();
         },
+        // async onUpdate() { 
+        //     this.test=JSON.stringify(this.$refs.tableDays);     
+        //     this.$axios.setHeader('Content-Type', 'application/json', [
+        //     'post'
+        //     ])    
+
+        //     const updatedResponse = await this.$axios.$post(`dashboard/update_special_dates`,this.filledSpecialDays)        
+        //     this.updatedResponse = updatedResponse
+        //     this.successAlert();
+        // },
+        // createArray(index, event) {
+        //     this.filledSpecialDays[index].date = event.day
+        //     this.filledSpecialDays[index].visibility = event.visibility
+        // }
         
     },
     beforeMount(){
         this.arrYear()
     },
     mounted() {
-        this.updatedSpecialDays = this.specialDays
 
+        
     }
 
 }

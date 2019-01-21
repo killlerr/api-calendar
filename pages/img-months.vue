@@ -53,7 +53,7 @@ export default {
     auth: false,
     data() {
         return{
-            file: null,
+            file: true,
             months: [
                 {
                     id: 1,

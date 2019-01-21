@@ -75,7 +75,9 @@ module.exports = {
 
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    baseURL: 'http://calendar-app.arimac.digital/'
   },
+
 
   /*
   ** Build configuration
