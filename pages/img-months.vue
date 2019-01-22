@@ -25,10 +25,10 @@
                             </td>
                         </tr> -->
                         <RowMonths
-                                v-for="month in months" v-bind:key="month.id"
-                                :id = month.id
-                                :name = month.name
+                                v-for="(month, index) in months" :key="index"
+                                :month = month
                                 :file = file
+                                @imgMonthchange="uploadMonthImg($event, index)"
                                 ></RowMonths>
                     </tbody>
                 </table>    
@@ -38,7 +38,7 @@
             <div class="col-sm-4 offset-sm-7">
                 <div class="row p-2">
                     <div class="col-sm-8">
-                        <b-button class="w-100" @click="successAlert">Update</b-button>
+                        <b-button class="w-100" @click="onUpdate">Update</b-button>
                     </div>
                 </div>
             </div>
@@ -53,11 +53,12 @@ export default {
     auth: false,
     data() {
         return{
-            file: true,
+            file: null,            
             months: [
                 {
                     id: 1,
-                    name: 'January'   
+                    name: 'January',
+                    counter: 0    
                 },
                 {
                     id: 2,
@@ -108,19 +109,50 @@ export default {
             updateDetails:{
                 "state": true,
                 "msg": "data_successfully_inserted"
-            }       
+            },
+            index: '',
+                  
         }
     },
     methods: {
-        successAlert(){
-            if(this.updateDetails.msg === 'data_successfully_inserted'){
+        onSuccess(){
+            if(this.availability.state){
                 this.alert = true;
-                this.$nuxt.$emit('ALERT_SUCCESS', this.alert);                          
+                this.$nuxt.$emit('ALERT_SUCCESS', this.alert);
+                console.log('success')                          
             }
-        },    
+        },
+        async uploadMonthImg(payload, index) {
+            let formData = new FormData();
+            formData.append(`month${index+1}`, payload);
+            console.log(formData)
+            // this.$axios.setHeader('Content-Type', 'application/x-www-form-urlencoded')          
+            this.$axios.setHeader('Content-Type', 'multipart/form-data')          
+            const availability = await this.$axios.$put(`dashboard/update_month_images`, formData, {
+                onUploadProgress: uploadEvent =>{
+                    console.log('Uploaded progress: ' + Math.round(uploadEvent.loaded/uploadEvent.total*100) + '%')
+                    this.months[index].counter = Math.round(uploadEvent.loaded/uploadEvent.total*100)
+                }
+            })
+            this.availability = availability
+            this.onSuccess()
+            console.log(formData)
+            for (var pair of formData.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }            
+        },
+        onUpdate(){
+            this.uploadMonthImg()
+        }            
     },
     components: {
         RowMonths
+    },
+    mounted(){
+        this.months.forEach(function(element) {
+            this.months.push({counter: 0})
+            console.log(element);
+        });
     }
 }
 </script>

@@ -32,7 +32,9 @@
                             <RowDays  v-for="(filledSpecialDay, index) in filledSpecialDays" v-bind:key="index"
                                     :date="filledSpecialDay"
                                     :selectedYear="selectedYear"
+
                                     ></RowDays>
+                                                                        <!-- @select="parentData" -->
                         <!-- </keep-alive> -->
                     </tbody>
                 </table> 
@@ -45,7 +47,7 @@
                         <b-button class="w-100" @click="dangerAlert">Delete</b-button>
                     </div>
                     <div class="col-sm-4">
-                        <b-button class="w-100" @click="onUpdate">Update</b-button>
+                        <b-button class="w-100" @click="onUpdate(filledSpecialDays)">Update</b-button>
                         <p>{{test}}</p>
                     </div>
                 </div>
@@ -111,14 +113,14 @@ export default {
                 this.$nuxt.$emit('ALERT_SUCCESS', this.alert);                          
             }
         },
-        onUpdate(){
-            console.log(this.filledSpecialDays)
-        },
+        // onUpdate(){
+        //     console.log(this.filledSpecialDays)
+        // },
         async change() {
             this.$axios.setHeader('Content-Type', 'application/json')          
             const specialDays = await this.$axios.$get(`dashboard/special_dates/${this.selectedYear}`)
             this.filledSpecialDays = specialDays.object.special_dates
-            this.updatedSpecialDays = this.filledSpecialDays
+            // this.updatedSpecialDays = this.filledSpecialDays
         },
         async dataAvailability() {
             this.$axios.setHeader('Content-Type', 'application/json')          
@@ -126,16 +128,25 @@ export default {
             this.availability = availability
             this.warningAlert();
         },
-        // async onUpdate() { 
-        //     this.test=JSON.stringify(this.$refs.tableDays);     
-        //     this.$axios.setHeader('Content-Type', 'application/json', [
-        //     'post'
-        //     ])    
+        async onUpdate(payload) {
+            const updatedSpecialDaysArr = this.filledSpecialDays.map(function(el){
+                delete el.name
+                return el
+            })
 
-        //     const updatedResponse = await this.$axios.$post(`dashboard/update_special_dates`,this.filledSpecialDays)        
-        //     this.updatedResponse = updatedResponse
-        //     this.successAlert();
-        // },
+            console.log(updatedSpecialDaysArr)
+
+            // this.test=JSON.stringify(this.$refs.tableDays);     
+            // this.$axios.setHeader('Content-Type', 'application/json', [
+            // 'post'
+            // ])    
+
+            // const updatedResponse = await this.$axios.$post(`dashboard/update_special_dates`,payload)        
+            // this.updatedResponse = updatedResponse
+            // this.successAlert();
+            // console.log(payload)
+            //Consider chnaging post request array name and removing the name property in array objects
+        },
         // createArray(index, event) {
         //     this.filledSpecialDays[index].date = event.day
         //     this.filledSpecialDays[index].visibility = event.visibility
@@ -151,6 +162,9 @@ export default {
     }
 
 }
+
+//on fist load data set is not loaded to preview
+//on Year switch newly loaded rows doesnt load data
 </script>
 
 <style>

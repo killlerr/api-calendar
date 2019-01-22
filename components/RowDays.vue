@@ -2,7 +2,7 @@
     <tr>
         <th scope="row">{{date.id}}</th>
         <td>{{date.name}}</td>
-        <td><flat-pickr v-model="dateDP.date" class="form-control" :config="config" placeholder="Select date"  @on-change="doSomethingOnChange" @on-close="doSomethingOnClose"
+        <td><flat-pickr v-model="dateDP.date" class="form-control" :config="config" placeholder="Select date"  @on-change="handleChange"
         ></flat-pickr></td>
         <td> <b-form-checkbox
                         v-model="dateDP.is_main"
@@ -32,27 +32,23 @@ export default {
     //     //     return this.date.time ? this.date.time : new Date();
     //     // }
     // },
+    beforeMount() {
+        this.dateDP = this.date
+    },
     beforeUpdate () {
-        this.dateDP = this.date // save props data to itself's data and deal with it
+        // this.dateDP = this.date // save props data to itself's data and deal with it
         this.config.maxDate = this.selectedYear + '-12-31';
         this.config.minDate = this.selectedYear + '-01-01';
     },    
     methods: {
         handleChange() {
-            // this.$emit('select', {
-            //     id: this.date.id,
-            //     day: this.date,
-            //     visibility: this.date.is_main
+            this.$emit('select', {
+                id: this.dateDP.id,
+                day: this.dateDP.date,
+                visibility: this.dateDP.is_main
                 
-            // })
+            })
         },
-        doSomethingOnChange(){
-
-        },
-        doSomethingOnClose(){
-
-        }
-
     },
     components: {
         flatPickr,
