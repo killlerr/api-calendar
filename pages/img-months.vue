@@ -58,51 +58,62 @@ export default {
                 {
                     id: 1,
                     name: 'January',
-                    counter: 0    
+                    counter: 0  
                 },
                 {
                     id: 2,
-                    name: 'February'   
+                    name: 'February',
+                    counter: 0  
                 },
                 {
                     id: 3,
-                    name: 'March'   
+                    name: 'March',
+                    counter: 0  
                 },
                 {
                     id: 4,
-                    name: 'April'   
+                    name: 'April',
+                    counter: 0  
                 },
                 {
                     id: 5,
-                    name: 'May'   
+                    name: 'May',
+                    counter: 0  
                 },
                 {
                     id: 6,
-                    name: 'June'   
+                    name: 'June',
+                    counter: 0  
                 },
                 {
                     id: 7,
-                    name: 'July'   
+                    name: 'July',
+                    counter: 0  
                 },
                 {
                     id: 8,
-                    name: 'August'   
+                    name: 'August',
+                    counter: 0  
                 },
                 {
                     id: 9,
-                    name: 'September'   
+                    name: 'September',
+                    counter: 0  
                 },
                 {
                     id: 10,
-                    name: 'October'   
+                    name: 'October',
+                    counter: 0  
                 },
                 {
                     id: 11,
-                    name: 'November'   
+                    name: 'November',
+                    counter: 0  
                 },
                 {
                     id: 12,
-                    name: 'December'   
+                    name: 'December',
+                    counter: 0  
                 }
             ],
             text: '',
@@ -111,6 +122,7 @@ export default {
                 "msg": "data_successfully_inserted"
             },
             index: '',
+            newMonths: []
                   
         }
     },
@@ -148,10 +160,9 @@ export default {
     components: {
         RowMonths
     },
-    mounted(){
+    created(){
         this.months.forEach(function(element) {
-            this.months.push({counter: 0})
-            console.log(element);
+            element["counter"] = 0;
         });
     }
 }

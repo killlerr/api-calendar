@@ -15,7 +15,7 @@
                         <th scope="col">Description Tamil</th>
                         </tr>
                     </thead>
-                    <tbody v-if="datesImages!==null">
+                    <tbody v-if="infoDates!==null">
                         <!-- <tr  v-for="specialDay in specialDays" v-bind:key="specialDay.id">
                             <th scope="row">{{specialDay.id}}</th>
                             <td>{{specialDay.name}}</td>
@@ -37,14 +37,14 @@
                                 </div>
                             </td>
                         </tr> -->
-                        <RowSpecialDay v-for="special_dates_and_image in datesImages.special_dates_and_images" 
-                                    v-bind:key="special_dates_and_image.id"
-                                    :id="special_dates_and_image.id"
-                                    :name="special_dates_and_image.name"
-                                    :file="special_dates_and_image.image_url"
-                                    :textSi="special_dates_and_image.description_si"
-                                    :textEn="special_dates_and_image.description_en"
-                                    :textTa="special_dates_and_image.description_ta"
+                        <RowSpecialDay v-for="(infoDate, index) in infoDates" 
+                                    :key="index"
+                                    :infoDate.sync ="infoDate"
+                                    :file ="file"
+                                    @imgDayChange="uploadImageDay($event, index)"
+                                    @inputSi="parentTextSi($event, index)"
+                                    @inputEn="parentTextEn($event, index)"
+                                    @inputTa="parentTextTa($event, index)"
                         >
                         </RowSpecialDay>
                     </tbody>
@@ -74,12 +74,12 @@ export default {
             textSi: '',
             textEn: '',
             textTa: '',
-            datesImages: null          
+            infoDates: []          
         }
     },
     methods: {
-        successAlert(){
-            if(this.updateDetails.msg === 'data_successfully_inserted'){
+        onSuccess(){
+            if(this.availability.state){
                 this.alert = true;
                 this.$nuxt.$emit('ALERT_SUCCESS', this.alert);                          
             }
@@ -92,15 +92,58 @@ export default {
         async onDatesImages() {
             this.$axios.setHeader('Content-Type', 'application/json')          
             const datesImages = await this.$axios.$get(`dashboard/special_dates_and_images`)
-            this.datesImages = datesImages
+            this.infoDates = datesImages.special_dates_and_images
+        },
+        async uploadImageDay(payload, index) {
+            let formData = new FormData();
+            formData.append(`date${index+1}`, payload);
+            console.log(formData)
+            // this.$axios.setHeader('Content-Type', 'application/x-www-form-urlencoded')          
+            this.$axios.setHeader('Content-Type', 'multipart/form-data')          
+            const availability = await this.$axios.$put(`dashboard/update_special_dates_images`, formData, {
+                onUploadProgress: uploadEvent =>{
+                    console.log('Uploaded progress: ' + Math.round(uploadEvent.loaded/uploadEvent.total*100) + '%')
+                    this.infoDates[index].counter = Math.round(uploadEvent.loaded/uploadEvent.total*100)
+                    // this.$set(this.infoDates[index], counter, Math.round(uploadEvent.loaded/uploadEvent.total*100)))
+                    // this.infoDates[index] = Object.assign({}, this.infoDates[index], {
+                    //     counter: Math.round(uploadEvent.loaded/uploadEvent.total*100)
+                    // })
+                }
+            })
+            this.availability = availability
+            this.onSuccess()
+            console.log(formData)
+            for (var pair of formData.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }             
+        },
+        parentTextSi(payload, index){
+            this.infoDates[index].description_si = payload
         },                 
+        parentTextEn(payload, index){
+            this.infoDates[index].description_en = payload
+        },                 
+        parentTextTa(payload, index){
+            this.infoDates[index].description_ta = payload
+        }                 
     },
     components:{
         RowSpecialDay
     },
     mounted(){
         this.onDatesImages();
-    }
+        // this.infoDates.forEach(function(element) {
+        //     element["counter"] = 0;
+        // });
+    },
+    // watch(){
+    //     this.uploadImageDay()
+    // },
+    beforeUpdate(){
+        this.infoDates.forEach(function(element) {
+            element["counter"] = 0;
+        });
+    }    
 }
 </script>
 
