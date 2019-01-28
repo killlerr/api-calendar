@@ -4,7 +4,7 @@
         <div class="row p-5 container-top">
             <SuccessAlert></SuccessAlert>
             <DangerAlert></DangerAlert>
-            <WarningAlert></WarningAlert>
+            <!-- <WarningAlert></WarningAlert> -->
             <div class="col-md-8 offset-md-2">
                 <div class="row">
                     <div class="col-md-7 offset-md-2 pb-4">
@@ -32,7 +32,6 @@
                             <RowDays  v-for="(filledSpecialDay, index) in filledSpecialDays" v-bind:key="index"
                                     :date="filledSpecialDay"
                                     :selectedYear="selectedYear"
-
                                     ></RowDays>
                                                                         <!-- @select="parentData" -->
                         <!-- </keep-alive> -->
@@ -44,7 +43,7 @@
             <div class="col-sm-8 offset-sm-2">
                 <div class="row p-2">
                     <div class="col-sm-4 offset-sm-4">
-                        <b-button class="w-100" @click="dangerAlert">Delete</b-button>
+                        <b-button class="w-100" @click="onDelete">Delete</b-button>
                     </div>
                     <div class="col-sm-4">
                         <b-button class="w-100" @click="onUpdate(filledSpecialDays)">Update</b-button>
@@ -62,6 +61,8 @@ import flatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
 
 import RowDays from '../components/RowDays.vue'
+import { mapActions, mapState } from 'vuex'
+// import org.json.JSONArray;
 
 export default {
     auth: false,
@@ -75,20 +76,32 @@ export default {
             updatedResponse: null,
             onlyDates: null,
             updatedSpecialDays: null,
-            test: null
+            test: null,
+            obj: {
+                update_special_dates: [],
+            },
+            object: {}
+
         }
     },
     components: {
         flatPickr,
         RowDays
     },
+    computed:{
+        ...mapState(['specialDays']),
+    },
     methods: {
+        ...mapActions([
+            'fetchSpecialDays' 
+        ]),
         dtpSelected(){
             console.log('date selected')
         },
         setYear(){
             this.change();
             this.dataAvailability();
+
         },
         arrYear(){
             for (var n = 0; n <=6; n++){
@@ -120,7 +133,7 @@ export default {
             this.$axios.setHeader('Content-Type', 'application/json')          
             const specialDays = await this.$axios.$get(`dashboard/special_dates/${this.selectedYear}`)
             this.filledSpecialDays = specialDays.object.special_dates
-            // this.updatedSpecialDays = this.filledSpecialDays
+            this.$store.dispatch('fetchSpecialDays', specialDays.object.special_dates)
         },
         async dataAvailability() {
             this.$axios.setHeader('Content-Type', 'application/json')          
@@ -129,12 +142,48 @@ export default {
             this.warningAlert();
         },
         async onUpdate(payload) {
-            const updatedSpecialDaysArr = this.filledSpecialDays.map(function(el){
-                delete el.name
-                return el
+            this.$axios.setHeader('Content-Type', 'application/json')          
+            const availabilityToUpdate = await this.$axios.$get(`dashboard/check_data_available/${this.selectedYear}`)
+            console.log(availabilityToUpdate.msg);
+            var obj = {
+                update_special_dates : []
+            }
+            this.filledSpecialDays.map(function(element) {        
+                obj.update_special_dates.push({ 
+                    'id' : element.id,
+                    'date' : element.date,
+                    'is_main' : element.is_main
+                });
             })
+            var object = JSON.parse(JSON.stringify(obj))
+            
+            
+                    console.log(JSON.stringify(obj))
+                    console.log('obj')
+                    console.log(object)
 
-            console.log(updatedSpecialDaysArr)
+            if(availabilityToUpdate.state){
+                const updateDateResponse = await this.$axios.$get(`dashboard/update_data/${this.selectedYear}`)
+                console.log(updateDateResponse.msg)
+                if(updateDateResponse.msg === 'data_successfully_inserted'){
+                    console.log('if_data_successfully_inserted')
+                    console.log(object)
+                    const updateSpecialDaysResponse = await this.$axios.$post(`dashboard/update_special_dates`,object)
+                    console.log(updateSpecialDaysResponse.result)
+                }
+            }
+            else{
+                    console.log('else_data_successfully_inserted')
+                    console.log(object)
+                    const updateSpecialDaysResponse = await this.$axios.$post(`dashboard/update_special_dates`,object)
+                    console.log(updateSpecialDaysResponse.result)      
+            }            
+            // const updatedSpecialDaysArr = this.filledSpecialDays.map(function(el){
+            //     delete el.name
+            //     return el
+            // })
+
+            // console.log(updatedSpecialDaysArr)
 
             // this.test=JSON.stringify(this.$refs.tableDays);     
             // this.$axios.setHeader('Content-Type', 'application/json', [
@@ -147,10 +196,16 @@ export default {
             // console.log(payload)
             //Consider chnaging post request array name and removing the name property in array objects
         },
-        // createArray(index, event) {
-        //     this.filledSpecialDays[index].date = event.day
-        //     this.filledSpecialDays[index].visibility = event.visibility
-        // }
+        async onDelete(){
+            this.$axios.setHeader('Content-Type', 'application/json')          
+            const delRes = await this.$axios.$get(`dashboard/delete_data/${this.selectedYear}`)
+            console.log(delRes.state)
+            console.log(delRes.msg)
+            if(delRes.state){
+                this.dangerAlert()
+                this.change();
+            }
+        }
         
     },
     beforeMount(){

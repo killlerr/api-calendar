@@ -4,7 +4,7 @@
         <td>{{date.name}}</td>
         <td><flat-pickr v-model="dateDP.date" class="form-control" :config="config" placeholder="Select date"  @on-change="handleChange"
         ></flat-pickr></td>
-        <td> <b-form-checkbox
+        <td><b-form-checkbox
                         v-model="dateDP.is_main"
                         @change="handleChange">
                         </b-form-checkbox></td>                                  
@@ -32,13 +32,37 @@ export default {
     //     //     return this.date.time ? this.date.time : new Date();
     //     // }
     // },
-    beforeMount() {
+    beforeCreate(){
+        console.log('beforeCreate')
+    },
+    created(){
+        console.log('Created')
+        // this.dateDP = this.date
+    },
+    beforeMount(){
+        console.log('beforeMount')
+        // this.dateDP = this.date
+    },
+    mounted() {
+        console.log('Mounted')
         this.dateDP = this.date
     },
     beforeUpdate () {
-        // this.dateDP = this.date // save props data to itself's data and deal with it
+        console.log('beforeUpdate')
+        this.dateDP = this.date // save props data to itself's data and deal with it
         this.config.maxDate = this.selectedYear + '-12-31';
         this.config.minDate = this.selectedYear + '-01-01';
+    },
+    updated() {
+        console.log('Updated')
+        // this.dateDP = this.date
+    },
+    beforeDestroy() {
+        console.log('beforeDestroy')
+
+    },
+    destroyed() {
+        console.log('destroyed')
     },    
     methods: {
         handleChange() {
