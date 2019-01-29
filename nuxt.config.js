@@ -42,6 +42,7 @@ module.exports = {
     '~/plugins/dangerAlert.js',
     '~/plugins/successAlert.js',
     '~/plugins/warningAlert.js',
+    // '~/plugins/hub.js',
     '~/plugins/axios'
   ],
 

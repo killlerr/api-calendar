@@ -23,7 +23,7 @@
                         <tr>
                         <th scope="col">#</th>
                         <th scope="col">Special Day</th>
-                        <th scope="col">Date</th>
+                        <th scope="col">Date*</th>
                         <th scope="col">Visibility</th>
                         </tr>
                     </thead>
@@ -32,6 +32,7 @@
                             <RowDays  v-for="(filledSpecialDay, index) in filledSpecialDays" v-bind:key="index"
                                     :date="filledSpecialDay"
                                     :selectedYear="selectedYear"
+                                    ref="rowDay"
                                     ></RowDays>
                                                                         <!-- @select="parentData" -->
                         <!-- </keep-alive> -->
@@ -47,7 +48,6 @@
                     </div>
                     <div class="col-sm-4">
                         <b-button class="w-100" @click="onUpdate(filledSpecialDays)">Update</b-button>
-                        <p>{{test}}</p>
                     </div>
                 </div>
             </div>
@@ -80,7 +80,8 @@ export default {
             obj: {
                 update_special_dates: [],
             },
-            object: {}
+            object: {},
+            duplicate: false
 
         }
     },
@@ -142,42 +143,55 @@ export default {
             this.warningAlert();
         },
         async onUpdate(payload) {
-            this.$axios.setHeader('Content-Type', 'application/json')          
-            const availabilityToUpdate = await this.$axios.$get(`dashboard/check_data_available/${this.selectedYear}`)
-            console.log(availabilityToUpdate.msg);
-            var obj = {
-                update_special_dates : []
+            // this.$nuxt.$emit('onUpdate')
+            // this.bus.$emit('onUpdate')
+            console.log('this.$refs.rowDay.checkForm')
+            console.log(this.$refs.rowDay[0].checkForm())
+            for(var i=0; i<25; i++){
+             this.$refs.rowDay[i].checkForm()
             }
-            this.filledSpecialDays.map(function(element) {        
-                obj.update_special_dates.push({ 
-                    'id' : element.id,
-                    'date' : element.date,
-                    'is_main' : element.is_main
-                });
-            })
-            var object = JSON.parse(JSON.stringify(obj))
-            
-            
-                    console.log(JSON.stringify(obj))
-                    console.log('obj')
-                    console.log(object)
-
-            if(availabilityToUpdate.state){
-                const updateDateResponse = await this.$axios.$get(`dashboard/update_data/${this.selectedYear}`)
-                console.log(updateDateResponse.msg)
-                if(updateDateResponse.msg === 'data_successfully_inserted'){
-                    console.log('if_data_successfully_inserted')
-                    console.log(object)
-                    const updateSpecialDaysResponse = await this.$axios.$post(`dashboard/update_special_dates`,object)
-                    console.log(updateSpecialDaysResponse.result)
+            console.log(this.$refs.rowDay)
+            console.log('beforeIF')
+            // hub.$emit('onUpdate')
+            // this.dateDuplications()
+            // if(this.filledSpecialDays.every(this.dateIsNotNull) && this.dateDuplications()){
+            if(this.filledSpecialDays.every(this.dateIsNotNull) && this.dateDuplications()){
+                this.$axios.setHeader('Content-Type', 'application/json')          
+                const availabilityToUpdate = await this.$axios.$get(`dashboard/check_data_available/${this.selectedYear}`)
+                console.log(availabilityToUpdate.msg);
+                var obj = {
+                    update_special_dates : []
                 }
+                this.filledSpecialDays.map(function(element) {        
+                    obj.update_special_dates.push({ 
+                        'id' : element.id,
+                        'date' : element.date,
+                        'is_main' : element.is_main
+                    });
+                })
+                var object = JSON.parse(JSON.stringify(obj))
+
+                if(availabilityToUpdate.state){
+                    const updateDateResponse = await this.$axios.$get(`dashboard/update_data/${this.selectedYear}`)
+                    console.log(updateDateResponse.msg)
+                    if(updateDateResponse.msg === 'data_successfully_inserted'){
+                        console.log('if_data_successfully_inserted')
+                        // console.log(object)
+                        const updateSpecialDaysResponse = await this.$axios.$post(`dashboard/update_special_dates`,object)
+                        console.log(updateSpecialDaysResponse.result)
+                        console.log(updateSpecialDaysResponse.msg)
+                        // this.change();
+                    }
+                }
+                else{
+                        console.log('else_data_successfully_inserted')
+                        // console.log(object)
+                        const updateSpecialDaysResponse = await this.$axios.$post(`dashboard/update_special_dates`,object)
+                        console.log(updateSpecialDaysResponse.result)      
+                        console.log(updateSpecialDaysResponse.msg)
+                        this.change();      
+                }            
             }
-            else{
-                    console.log('else_data_successfully_inserted')
-                    console.log(object)
-                    const updateSpecialDaysResponse = await this.$axios.$post(`dashboard/update_special_dates`,object)
-                    console.log(updateSpecialDaysResponse.result)      
-            }            
             // const updatedSpecialDaysArr = this.filledSpecialDays.map(function(el){
             //     delete el.name
             //     return el
@@ -205,16 +219,47 @@ export default {
                 this.dangerAlert()
                 this.change();
             }
+        },
+        dateIsNotNull(current){
+           return current.date !== ""
+        },
+        dateDuplications(){
+            var array = this.filledSpecialDays;
+
+            for (var i = 0; i < array.length; i++) {
+
+                // var special_date_id = this.filledSpecialDays[i]["id"];
+                var date = this.filledSpecialDays[i].date;
+                var is_main = this.filledSpecialDays[i].is_main;
+                // var year = this.filledSpecialDays[i]["date"].slice(0, 4);
+
+                for (var j = i + 1; j < array.length; j++) {
+
+                    var sec_date = this.filledSpecialDays[j].date;
+                    var sec_is_main = this.filledSpecialDays[j].is_main;
+
+                    if (date === sec_date) {
+                        if (is_main === sec_is_main) {
+                            this.duplicate = true;
+                            return false
+                            // res.json({status: false, msg: 'there_are_duplications'});
+                            // break;
+                        }
+                    }
+                }
+                if (this.duplicate == true) {
+                    break;
+                }
+            }
         }
-        
+
     },
     beforeMount(){
         this.arrYear()
     },
-    mounted() {
-
+    // mounted() {
         
-    }
+    // }
 
 }
 

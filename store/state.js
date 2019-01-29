@@ -1,3 +1,4 @@
 export default () => ({
-    specialDays: []
+    specialDays: [],
+    errors: []
 })

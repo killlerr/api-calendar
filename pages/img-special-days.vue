@@ -55,7 +55,7 @@
             <div class="col-sm-4 offset-sm-7">
                 <div class="row p-2">
                     <div class="col-sm-8">
-                        <b-button class="w-100" @click="onUpdate">Update</b-button>
+                        <b-button class="w-100" @click="onUpdate(infoDates)">Update</b-button>
                     </div>
                 </div>
             </div>
@@ -84,11 +84,11 @@ export default {
                 this.$nuxt.$emit('ALERT_SUCCESS', this.alert);                          
             }
         },
-        onUpdate(){
-            this.specialDays.forEach(element => {
-                console.log(element);
-            });
-        },
+        // onUpdate(){
+        //     this.specialDays.forEach(element => {
+        //         console.log(element);
+        //     });
+        // },
         async onDatesImages() {
             this.$axios.setHeader('Content-Type', 'application/json')          
             const datesImages = await this.$axios.$get(`dashboard/special_dates_and_images`)
@@ -116,6 +116,34 @@ export default {
             for (var pair of formData.entries()) {
                 console.log(pair[0]+ ', ' + pair[1]); 
             }             
+        },
+        async onUpdate(payload) {
+            this.$axios.setHeader('Content-Type', 'application/json')          
+
+            var obj = {
+                update_descriptions : []
+            }
+            this.infoDates.map(function(element) {        
+                obj.update_descriptions.push({ 
+                    'date' : element.id,
+                    'description_en' : element.description_en,
+                    'description_si' : element.description_si,
+                    'description_ta' : element.description_ta
+                });
+            })
+            var object = JSON.parse(JSON.stringify(obj))
+            
+            
+            // console.log(JSON.stringify(obj))
+            // console.log('obj')
+            // console.log(object)
+
+
+            // console.log('else_data_successfully_inserted')
+            // console.log(object)
+            const updateSpecialDaysResponse = await this.$axios.$post(`dashboard/update_descriptions`,object)
+            console.log(updateSpecialDaysResponse.msg)      
+                       
         },
         parentTextSi(payload, index){
             this.infoDates[index].description_si = payload
