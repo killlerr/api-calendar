@@ -1,6 +1,9 @@
 <template>
-    <div class="container">
+    <div class="container" @click="onDOMClick">
         <navbar></navbar>
+        <b-alert show variant="success" v-if="newUserState" class="error-center">
+                    New User Added
+        </b-alert>           
         <div class="row p-5 container-top">
             <div class="col-md-8 offset-md-2">
                 <table class="table table-striped">
@@ -29,27 +32,27 @@
                         <b-btn v-b-modal.modal1 class="w-100">New User</b-btn>
 
                         <!-- Modal Component -->
-                        <b-modal id="modal1" title="New User" class="text-dark" ok-title="Submit" ok-only="true">
+                        <b-modal id="modal1" title="New User" class="text-dark" ok-title="Submit" ok-only @ok="onOk">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-8 offset-md-2">
                                         <div class="row py-2">
-                                            <b-form-input v-model="text1"
+                                            <b-form-input v-model="newUser.userName"
                                                         type="text"
                                                         placeholder="User name"></b-form-input> 
                                         </div>                                                                             
                                         <div class="row py-2">
-                                            <b-form-input v-model="text1"
+                                            <b-form-input v-model="newUser.email"
                                                         type="email"
                                                         placeholder="Email"></b-form-input> 
                                         </div>                                                                             
                                         <div class="row py-2">
-                                            <b-form-input v-model="text1"
+                                            <b-form-input v-model="newUser.password"
                                                         type="password"
                                                         placeholder="Password"></b-form-input> 
                                         </div>                                                                             
                                         <div class="row py-2">
-                                            <b-form-input v-model="text1"
+                                            <b-form-input v-model="newUser.confirmPassword"
                                                         type="password"
                                                         placeholder="Confirm Password"></b-form-input> 
                                         </div>                                                                             
@@ -66,7 +69,7 @@
 
 <script>
 export default {
-    auth: false,
+    // auth: false,
     data(){
         return{
             users: [
@@ -80,6 +83,26 @@ export default {
                 name: 'test 2',
                 email: 'abc@arimac.lk'  
             }],
+            newUser:{},
+            newUserState: false
+        }
+    },
+    methods:{
+        async onOk(){
+            this.$axios.setHeader('Content-Type', 'application/json')    
+            const newUserResponse = await this.$axios.post('auth/register', {
+                name : this.newUser.userName,
+                email : this.newUser.email,
+                password : this.newUser.password,
+                confirm_password : this.newUser.confirmPassword
+            })
+            if(newUserResponse.data.result === "user_registration_is_successful"){
+                    this.newUserState = true
+            }
+            console.log(newUserResponse.data.result)    
+        },
+        onDOMClick(){
+            this.newUserState = false
         }
     }
 }

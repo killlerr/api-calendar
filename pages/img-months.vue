@@ -50,7 +50,7 @@
 import RowMonths from '../components/RowMonths'
 
 export default {
-    auth: false,
+    // auth: false,
     data() {
         return{
             file: null,            

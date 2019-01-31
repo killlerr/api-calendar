@@ -4,7 +4,7 @@
 
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-    <b-navbar-brand href="#"><b-img src="/app-icon.png" fluid alt="icon" class="app-icon-wrap"/></b-navbar-brand>
+    <b-navbar-brand to="#"><b-img src="/app-icon.png" fluid alt="icon" class="app-icon-wrap"/></b-navbar-brand>
 
         <b-collapse is-nav id="nav_collapse">
 
@@ -12,12 +12,12 @@
             <b-navbar-nav class="ml-auto">
 
             <b-navbar-nav>
-                <b-nav-item href="/">Home</b-nav-item>
+                <b-nav-item to="/">Home</b-nav-item>
             </b-navbar-nav>
 
             <b-nav-item-dropdown text='User' right>
-                <b-dropdown-item href="/profile">Profile</b-dropdown-item>
-                <b-dropdown-item href="/login">Signout</b-dropdown-item>
+                <b-dropdown-item to="/profile">Profile</b-dropdown-item>
+                <b-dropdown-item @click="onLogout">Signout</b-dropdown-item>
             </b-nav-item-dropdown>
             </b-navbar-nav>
 
@@ -28,7 +28,12 @@
 
 <script>
 export default {
-    
+  methods:{
+    async onLogout(){
+        await this.$auth.logout()
+        this.$router.push("/login")
+    }
+  } 
 }
 </script>
 

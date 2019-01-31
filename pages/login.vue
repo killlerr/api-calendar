@@ -9,13 +9,15 @@
             <div class="p-5">
                 <b-form inline>
                     <label class="sr-only" for="inlineFormInputName2">Name</label>
-                    <b-input class="mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" placeholder="Username" type="text" v-model="form.user" required/>
+                    <b-input class="mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" placeholder="Username" type="text" v-model="form.user"/>
+                    
                     <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
                     <b-input-group left="@" class="mb-2 mr-sm-2 mb-sm-0">
-                        <b-input id="inlineFormInputGroupUsername2" placeholder="Password" type="password" v-model="form.password" required/>
+                        <b-input id="inlineFormInputGroupUsername2" placeholder="Password" type="password" v-model="form.password" />
                     </b-input-group>
+
                     <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0">Remember me</b-form-checkbox>
-                    <b-button type="submit" variant="primary" @click="onClick">Login</b-button>
+                    <b-button variant="primary" @click="onClick">Login</b-button>
                 </b-form>
             </div>
         </div>
@@ -35,12 +37,16 @@ export default {
     },
     methods: {
         onClick () {
-          this.$auth.loginWith('local',{
-            data:{
-              user: 'indika@arimaclanka.com',
-              password: '123'
-            }
-          }).then(() => this.$toast.success('Logged In!'))
+            console.log(this.form.user)
+            console.log(this.form.password)
+            this.$auth.loginWith('local',{
+                data:{
+                      email: this.form.user, //'1234@gmail.com',
+                    // email: '1234@gmail.com',
+                      password: this.form.password //'123456'
+                    // password: '123456'
+                }
+            }).then(() => this.$toast.success('Logged In!'))
         }
     }
 }

@@ -67,7 +67,7 @@
 import RowSpecialDay from '../components/RowSpecialDay.vue'
 
 export default {
-    auth: false,
+    // auth: false,
     data() {
         return{
             file: null,

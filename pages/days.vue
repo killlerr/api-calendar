@@ -79,7 +79,7 @@ import { mapActions, mapState } from 'vuex'
 // import org.json.JSONArray;
 
 export default {
-    auth: false,
+    // auth: false,
     data() {
         return{
             options: [2000],
@@ -247,7 +247,7 @@ export default {
                         if (is_main === sec_is_main) {
                             console.log('is_main === sec_is_main')
                             this.duplicate = true;
-                            this.errors.push("Error! For same dates only one date should be set as visible")
+                            this.errors.push("Date Duplication! Only one date must be set as visible")
                             return false
                             // break;
                         }
@@ -255,7 +255,7 @@ export default {
                 }
                 if(this.duplicate == true) {
                     // break;
-                    this.errors.push("Error! For same dates only one date should be set as visible")                    
+                    this.errors.push("Date Duplication! Only one date must be set as visible")                    
                     console.log('this.duplicate == true')
                     return false
                 }
