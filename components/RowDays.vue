@@ -8,7 +8,7 @@
         <div class="invalid-feedback pl-3 display-true" @onUpdate="checkForm ">
             <p v-if="errors.length" class="pmb-0">
                 <ul class="p-0 pmb-0">
-                <li v-for="error in errors" :key="error">{{ error }}</li>
+                <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
                 </ul>
             </p> 
         </div>
@@ -89,7 +89,6 @@ export default {
         },
         checkForm(){
             console.log('checkForm')
-            console.log(this.p)
             if(!this.dateDP.date){     
                 console.log('no date')
                 this.errors.push("Date required.");

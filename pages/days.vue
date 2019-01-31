@@ -5,6 +5,19 @@
             <SuccessAlert></SuccessAlert>
             <DangerAlert></DangerAlert>
             <!-- <WarningAlert></WarningAlert> -->
+            <b-alert show variant="danger" v-if="errors.length">
+                <span class="duplicate-feedback pl-3 display-true">
+                    <p v-if="errors.length" class="pmb-0">
+                        <ul class="p-0 pmb-0">
+                        <li v-for="(error, index) in errors" :key="index" class="error-center">{{ error }}</li>
+                        </ul>
+                        <!-- {{duplicate}} -->
+                    </p> 
+                </span>       
+            </b-alert>     
+            <b-alert show variant="success" v-if="updateSpecialDaysResponse.result" class="error-center">
+                        Updated Successfully
+            </b-alert>     
             <div class="col-md-8 offset-md-2">
                 <div class="row">
                     <div class="col-md-7 offset-md-2 pb-4">
@@ -33,6 +46,7 @@
                                     :date="filledSpecialDay"
                                     :selectedYear="selectedYear"
                                     ref="rowDay"
+                                    @select="noErrors"
                                     ></RowDays>
                                                                         <!-- @select="parentData" -->
                         <!-- </keep-alive> -->
@@ -81,7 +95,11 @@ export default {
                 update_special_dates: [],
             },
             object: {},
-            duplicate: false
+            duplicate: false,
+            errors:[],
+            updateSpecialDaysResponse:{
+                result: false
+            }
 
         }
     },
@@ -180,6 +198,7 @@ export default {
                         const updateSpecialDaysResponse = await this.$axios.$post(`dashboard/update_special_dates`,object)
                         console.log(updateSpecialDaysResponse.result)
                         console.log(updateSpecialDaysResponse.msg)
+                        // this.successAlert()
                         // this.change();
                     }
                 }
@@ -187,28 +206,12 @@ export default {
                         console.log('else_data_successfully_inserted')
                         // console.log(object)
                         const updateSpecialDaysResponse = await this.$axios.$post(`dashboard/update_special_dates`,object)
+                        this.updateSpecialDaysResponse.result = updateSpecialDaysResponse.result
                         console.log(updateSpecialDaysResponse.result)      
                         console.log(updateSpecialDaysResponse.msg)
                         this.change();      
                 }            
             }
-            // const updatedSpecialDaysArr = this.filledSpecialDays.map(function(el){
-            //     delete el.name
-            //     return el
-            // })
-
-            // console.log(updatedSpecialDaysArr)
-
-            // this.test=JSON.stringify(this.$refs.tableDays);     
-            // this.$axios.setHeader('Content-Type', 'application/json', [
-            // 'post'
-            // ])    
-
-            // const updatedResponse = await this.$axios.$post(`dashboard/update_special_dates`,payload)        
-            // this.updatedResponse = updatedResponse
-            // this.successAlert();
-            // console.log(payload)
-            //Consider chnaging post request array name and removing the name property in array objects
         },
         async onDelete(){
             this.$axios.setHeader('Content-Type', 'application/json')          
@@ -225,6 +228,7 @@ export default {
         },
         dateDuplications(){
             var array = this.filledSpecialDays;
+            this.duplicate = false;
 
             for (var i = 0; i < array.length; i++) {
 
@@ -239,20 +243,34 @@ export default {
                     var sec_is_main = this.filledSpecialDays[j].is_main;
 
                     if (date === sec_date) {
+                        console.log('date === sec_date')
                         if (is_main === sec_is_main) {
+                            console.log('is_main === sec_is_main')
                             this.duplicate = true;
+                            this.errors.push("Error! For same dates only one date should be set as visible")
                             return false
-                            // res.json({status: false, msg: 'there_are_duplications'});
                             // break;
                         }
                     }
                 }
-                if (this.duplicate == true) {
-                    break;
+                if(this.duplicate == true) {
+                    // break;
+                    this.errors.push("Error! For same dates only one date should be set as visible")                    
+                    console.log('this.duplicate == true')
+                    return false
                 }
             }
+            if(this.duplicate == false){
+                console.log('this.duplicate == false')
+                this.errors=[];
+                return true
+            }
+        },
+        noErrors(){
+            this.errors= []
+            this.updateSpecialDaysResponse.result=false;
+            
         }
-
     },
     beforeMount(){
         this.arrYear()
@@ -269,6 +287,16 @@ export default {
 
 <style>
 
+.duplicate-feedback{
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 90%;
+    font-weight: bold;
+    color: #ffffff;
+}
 
-
+.error-center{
+    text-align: center;
+    list-style-type: none;
+}
 </style>

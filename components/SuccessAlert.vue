@@ -1,11 +1,11 @@
 <template>
     <b-alert variant="success"
-             dismissible
              :show="showDismissibleAlert"
-             @dismissed="showDismissibleAlert=false">
-    <h4 class="alert-heading">Database Updated!</h4>
-    <hr>
+             @dismissed="dismissCountDown=0"
+             @dismiss-count-down="countDownChanged"
+             class="error-center">
     <p class="mb-0">You successfully updated the databse.</p>
+    This alert will dismiss after {{dismissCountDown}} seconds...
     </b-alert>
 </template>
 
@@ -14,7 +14,17 @@ export default {
     auth: false,
   data () {
     return {
-      showDismissibleAlert: false
+      showDismissibleAlert: false,
+      dismissSecs: 5,
+      dismissCountDown: 0
+    }
+  },
+  methods: {
+    countDownChanged (dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+    },
+    showAlert () {
+      this.dismissCountDown = this.dismissSecs
     }
   },
   created() {
@@ -29,3 +39,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.error-center{
+    text-align: center;
+    list-style-type: none;
+}
+</style>

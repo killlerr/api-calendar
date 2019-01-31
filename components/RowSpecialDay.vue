@@ -6,7 +6,7 @@
             <div>
                 <div class="file-upload-form">
                     <b-form-file type="file" id="file" ref="fileDay" @change="onFileChange" :state="Boolean(true)" placeholder="Choose a file..."></b-form-file>
-                    <b-progress :value="childData.counter" variant="info" show-progress class="mt-1"></b-progress>                    
+                    <b-progress :value="childData.count" variant="info" show-progress class="mt-1"></b-progress>                    
 
                 </div>
             </div>

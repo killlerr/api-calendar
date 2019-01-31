@@ -2,7 +2,7 @@
     <div class="container">
         <navbar></navbar>
         <div class="row p-5 container-top">
-            <SuccessAlert></SuccessAlert>
+            <!-- <SuccessAlert></SuccessAlert> -->
             <div class="col-md-8 offset-md-2">
                 <table class="table table-striped">
                     <thead>
@@ -38,7 +38,7 @@
             <div class="col-sm-4 offset-sm-7">
                 <div class="row p-2">
                     <div class="col-sm-8">
-                        <b-button class="w-100" @click="onUpdate">Update</b-button>
+                        <!-- <b-button class="w-100" @click="onUpdate">Update</b-button> -->
                     </div>
                 </div>
             </div>

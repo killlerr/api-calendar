@@ -2,7 +2,7 @@
     <div class="container">
         <navbar></navbar>
         <div class="row p-5 container-top">
-            <SuccessAlert></SuccessAlert>
+            <!-- <SuccessAlert></SuccessAlert> -->
             <div class="col-md-10 offset-md-1">
                 <table class="table table-striped">
                     <thead>
@@ -92,7 +92,8 @@ export default {
         async onDatesImages() {
             this.$axios.setHeader('Content-Type', 'application/json')          
             const datesImages = await this.$axios.$get(`dashboard/special_dates_and_images`)
-            this.infoDates = datesImages.special_dates_and_images
+            this.infoDates = datesImages.object.special_dates_and_images
+            console.log('onDatesImages')
         },
         async uploadImageDay(payload, index) {
             let formData = new FormData();
@@ -103,7 +104,7 @@ export default {
             const availability = await this.$axios.$put(`dashboard/update_special_dates_images`, formData, {
                 onUploadProgress: uploadEvent =>{
                     console.log('Uploaded progress: ' + Math.round(uploadEvent.loaded/uploadEvent.total*100) + '%')
-                    this.infoDates[index].counter = Math.round(uploadEvent.loaded/uploadEvent.total*100)
+                    this.infoDates[index].count = Math.round(uploadEvent.loaded/uploadEvent.total*100)
                     // this.$set(this.infoDates[index], counter, Math.round(uploadEvent.loaded/uploadEvent.total*100)))
                     // this.infoDates[index] = Object.assign({}, this.infoDates[index], {
                     //     counter: Math.round(uploadEvent.loaded/uploadEvent.total*100)
@@ -160,18 +161,19 @@ export default {
     },
     mounted(){
         this.onDatesImages();
-        // this.infoDates.forEach(function(element) {
-        //     element["counter"] = 0;
-        // });
+    //     this.infoDates.forEach(function(element) {
+    //         element["counter"] = 0;
+    //     });
     },
     // watch(){
     //     this.uploadImageDay()
     // },
-    beforeUpdate(){
-        this.infoDates.forEach(function(element) {
-            element["counter"] = 0;
-        });
-    }    
+    // beforeUpdate(){
+    //     // this.infoDates.forEach(function(element) {
+    //     //     element["counter"] = 0;
+    //     // });
+    //     this.onDatesImages();
+    // }    
 }
 </script>
 
