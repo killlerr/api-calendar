@@ -50,3 +50,10 @@
 .alert-warning {
     background-color: #fff3cdef;
 }
+
+.page-enter-active, .page-leave-active {
+    transition: opacity .5s;
+}
+.page-enter, .page-leave-to {
+    opacity: 0;
+}

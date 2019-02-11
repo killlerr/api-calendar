@@ -2,12 +2,16 @@
     <tr>
         <th scope="row">{{childData.id}}</th>
         <td>{{childData.name}}</td>
+        <!-- <td>
+            <div>
+                <img :src="childData.image_url" alt="">
+            </div>
+        </td> -->
         <td>
             <div>
                 <div class="file-upload-form">
                     <b-form-file type="file" id="file" ref="fileDay" @change="onFileChange" :state="Boolean(true)" placeholder="Choose a file..."></b-form-file>
                     <b-progress :value="childData.count" variant="info" show-progress class="mt-1"></b-progress>                    
-
                 </div>
             </div>
         </td>
@@ -50,6 +54,7 @@
 
 <script>
 export default {
+    auth: false,
     data(){
         return{
             fileImg: '',

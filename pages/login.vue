@@ -16,7 +16,7 @@
                         <b-input id="inlineFormInputGroupUsername2" placeholder="Password" type="password" v-model="form.password" />
                     </b-input-group>
 
-                    <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0">Remember me</b-form-checkbox>
+                    <!-- <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0">Remember me</b-form-checkbox> -->
                     <b-button variant="primary" @click="onClick">Login</b-button>
                 </b-form>
             </div>
@@ -46,7 +46,7 @@ export default {
                       password: this.form.password //'123456'
                     // password: '123456'
                 }
-            }).then(() => this.$toast.success('Logged In!'))
+            })
         }
     }
 }

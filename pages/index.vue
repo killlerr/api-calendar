@@ -43,8 +43,8 @@
 <script>
 
 export default {    
-    //auth: false
-    // middleware: 'auth'
+        //auth: false
+        // middleware: 'auth'
 }
 </script>
 

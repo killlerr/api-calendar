@@ -98,12 +98,21 @@ export default {
             })
             if(newUserResponse.data.result === "user_registration_is_successful"){
                     this.newUserState = true
+                    this.fetchData()
             }
             console.log(newUserResponse.data.result)    
         },
         onDOMClick(){
             this.newUserState = false
-        }
+        },
+        async fetchData() {
+            this.$axios.setHeader('Content-Type', 'application/json')          
+            const users = await this.$axios.$get(`auth/users`)
+            this.users = users.users
+        },        
+    },
+    beforeMount(){
+        this.fetchData()
     }
 }
 </script>

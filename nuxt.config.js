@@ -63,17 +63,14 @@ module.exports = {
     strategies: {
       local: {
         endpoints: {
-          login: { url: 'auth/login', method: 'post', propertyName: 'token' },
+          login: { url: 'auth/login', method: 'post', propertyName: 'access_token' },
           logout: false,
-          user: false
+          user: { url: 'auth/me', method: 'get', propertyName: false }
         },
         // tokenRequired: true,
         // tokenType: 'bearer',
-      }
-    },
-    localStorage: false,
-    cookie: false
-  
+      },
+    }
   },
 
   axios: {
