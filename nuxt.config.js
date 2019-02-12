@@ -42,8 +42,10 @@ module.exports = {
     '~/plugins/dangerAlert.js',
     '~/plugins/successAlert.js',
     '~/plugins/warningAlert.js',
+    '~/plugins/vee.js',
     // '~/plugins/hub.js',
     '~/plugins/axios'
+
   ],
 
   /*

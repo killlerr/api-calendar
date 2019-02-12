@@ -1,7 +1,9 @@
 <template>
-    <div class="container">
+    <div class="container" @click="onDOMClick">
         <navbar></navbar>
         <div class="row p-5 container-top">
+            <div class="alert alert-success alert--fixed" v-show="updateScc">Description Updated Successfully</div>
+            <div class="alert alert-danger alert--fixed" v-show="updateErr">Update failed</div>
             <!-- <SuccessAlert></SuccessAlert> -->
             <div class="col-md-10 offset-md-1">
                 <table class="table table-striped">
@@ -74,7 +76,9 @@ export default {
             textSi: '',
             textEn: '',
             textTa: '',
-            infoDates: []          
+            infoDates: [],          
+            updateErr: false,
+            updateScc: false
         }
     },
     methods: {
@@ -143,7 +147,13 @@ export default {
             // console.log('else_data_successfully_inserted')
             // console.log(object)
             const updateSpecialDaysResponse = await this.$axios.$post(`dashboard/update_descriptions`,object)
-            console.log(updateSpecialDaysResponse.msg)      
+            if(updateSpecialDaysResponse.state){
+                this.updateScc= true
+                console.log('true')
+            }else{
+                this.updateErr= true
+            }
+            console.log(updateSpecialDaysResponse)      
                        
         },
         parentTextSi(payload, index){
@@ -154,6 +164,10 @@ export default {
         },                 
         parentTextTa(payload, index){
             this.infoDates[index].description_ta = payload
+        },
+        onDOMClick(){
+            this.updateErr = false
+            this.updateScc = false            
         }                 
     },
     components:{

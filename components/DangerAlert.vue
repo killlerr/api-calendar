@@ -2,9 +2,10 @@
     <b-alert variant="danger"
              dismissible
              :show="showDismissibleAlert"
-             @dismissed="showDismissibleAlert=false">
-    <h4 class="alert-heading">Database deleted!</h4>
-    <hr>
+             @dismissed="showDismissibleAlert=false"
+             class="alert--fixed">
+    <!-- <h4 class="alert-heading">Database deleted!</h4>
+    <hr> -->
     <p class="mb-0">Deleted all data for the selected year.</p>
     </b-alert>
 </template>

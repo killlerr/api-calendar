@@ -1,7 +1,7 @@
 <template>
     <div class="container" @click="onDOMClick">
         <navbar></navbar>
-        <b-alert show variant="success" v-if="newUserState" class="error-center">
+        <b-alert show variant="success" v-if="newUserState" class="alert--fixed error-center">
                     New User Added
         </b-alert>           
         <div class="row p-5 container-top">
@@ -37,24 +37,32 @@
                                 <div class="row">
                                     <div class="col-md-8 offset-md-2">
                                         <div class="row py-2">
-                                            <b-form-input v-model="newUser.userName"
+                                            <b-form-input v-validate="'required'" v-model="newUser.userName"
                                                         type="text"
-                                                        placeholder="User name"></b-form-input> 
+                                                        placeholder="User name"
+                                                        name="name"></b-form-input>
+                                            <div class="alert alert-danger w-100" v-show="errors.has('name')">{{ errors.first('name') }}</div>                                        
                                         </div>                                                                             
                                         <div class="row py-2">
-                                            <b-form-input v-model="newUser.email"
+                                            <b-form-input v-validate="'required|email'" v-model="newUser.email"
                                                         type="email"
-                                                        placeholder="Email"></b-form-input> 
+                                                        placeholder="Email"
+                                                        name="email"></b-form-input>
+                                            <div class="alert alert-danger w-100" v-show="errors.has('email')">{{ errors.first('email') }}</div>                                        
+                                        </div>                                                                                                                                                                                             
+                                        <div class="row py-2">
+                                            <b-form-input v-validate="'required|min:6'" v-model="newUser.password"
+                                                        type="password"
+                                                        placeholder="Password"
+                                                        name="password"></b-form-input>
+                                            <div class="alert alert-danger w-100" v-show="errors.has('password')">{{ errors.first('password') }}</div>                                        
                                         </div>                                                                             
                                         <div class="row py-2">
-                                            <b-form-input v-model="newUser.password"
+                                            <b-form-input v-validate="'required|confirmed:password'" v-model="newUser.confirmPassword"
                                                         type="password"
-                                                        placeholder="Password"></b-form-input> 
-                                        </div>                                                                             
-                                        <div class="row py-2">
-                                            <b-form-input v-model="newUser.confirmPassword"
-                                                        type="password"
-                                                        placeholder="Confirm Password"></b-form-input> 
+                                                        placeholder="Confirm Password"
+                                                        name="confirmPassword"></b-form-input>
+                                            <div class="alert alert-danger w-100" v-show="errors.has('confirmPassword')">{{ errors.first('confirmPassword') }}</div>                                                                                                                  
                                         </div>                                                                             
                                     </div>
                                 </div>

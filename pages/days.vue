@@ -5,7 +5,7 @@
             <SuccessAlert></SuccessAlert>
             <DangerAlert></DangerAlert>
             <!-- <WarningAlert></WarningAlert> -->
-            <b-alert show variant="danger" v-if="errors.length">
+            <b-alert class="alert--fixed" show variant="danger" v-if="errors.length">
                 <span class="duplicate-feedback pl-3 display-true">
                     <p v-if="errors.length" class="pmb-0">
                         <ul class="p-0 pmb-0">
@@ -15,7 +15,7 @@
                     </p> 
                 </span>       
             </b-alert>     
-            <b-alert show variant="success" v-if="updateSpecialDaysResponse.result" class="error-center">
+            <b-alert show variant="success" v-if="updateSpecialDaysResponse.result" class="alert--fixed error-center">
                         Updated Successfully
             </b-alert>     
             <div class="col-md-8 offset-md-2">

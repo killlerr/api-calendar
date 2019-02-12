@@ -1,5 +1,6 @@
 <template>
-    <div class="container">
+    <div class="container" @click="onDOMClick">
+        <div class="alert alert-danger alert--fixed" v-show="loginErr">Login Failed</div>
         <div class="b-form--center">
             <div class="">
                     <div class="p-5">
@@ -32,21 +33,30 @@ export default {
                 user: '',
                 password: '',
                 checked: []
-            }
+            },
+            loginErr: false
         }
     },
     methods: {
-        onClick () {
+        async onClick () {
             console.log(this.form.user)
             console.log(this.form.password)
-            this.$auth.loginWith('local',{
+            try{ 
+                await this.$auth.loginWith('local',{
                 data:{
                       email: this.form.user, //'1234@gmail.com',
                     // email: '1234@gmail.com',
                       password: this.form.password //'123456'
                     // password: '123456'
-                }
-            })
+                }})
+            }catch(err){
+                this.loginErr = true
+                console.log('err')
+                console.log(err)
+            }
+        },
+        onDOMClick(){
+            this.loginErr = false
         }
     }
 }

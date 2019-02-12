@@ -3,8 +3,8 @@
              dismissible
              :show="showDismissibleAlert"
              @dismissed="showDismissibleAlert=false">
-    <h4 class="alert-heading">Overwrite Alert!</h4>
-    <hr>
+    <!-- <h4 class="alert--fixed alert-heading">Overwrite Alert!</h4>
+    <hr> -->
     <p class="mb-0">Selected year already contain data. Data can overwrite.</p>
     </b-alert>
 </template>

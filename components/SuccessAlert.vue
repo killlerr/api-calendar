@@ -3,7 +3,7 @@
              :show="showDismissibleAlert"
              @dismissed="dismissCountDown=0"
              @dismiss-count-down="countDownChanged"
-             class="error-center">
+             class="alert--fixed error-center">
     <p class="mb-0">You successfully updated the databse.</p>
     This alert will dismiss after {{dismissCountDown}} seconds...
     </b-alert>
