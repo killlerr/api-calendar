@@ -4,7 +4,7 @@
 
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-    <b-navbar-brand to="#"><b-img src="/app-icon.png" fluid alt="icon" class="app-icon-wrap"/></b-navbar-brand>
+    <b-navbar-brand to="/"><b-img src="/app-icon.png" fluid alt="icon" class="app-icon-wrap"/></b-navbar-brand>
 
         <b-collapse is-nav id="nav_collapse">
 

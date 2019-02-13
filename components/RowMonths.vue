@@ -5,7 +5,7 @@
         <td>
             <div>
                 <div class="file-upload-form">
-                    <b-form-file type="file" id="file" ref="fileMonth" :state="Boolean(true)" placeholder="Choose a file..." @change="onChange"></b-form-file>
+                    <b-form-file class="overflow--no" type="file" id="file" ref="fileMonth" :state="Boolean(true)" placeholder="Choose a file..." @change="onChange"></b-form-file>
                     <b-progress :value="month.counter" :max="max" variant="info" show-progress class="mt-1"></b-progress>                    
                 </div>
             </div>

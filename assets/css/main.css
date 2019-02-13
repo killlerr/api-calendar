@@ -57,3 +57,7 @@
 .page-enter, .page-leave-to {
     opacity: 0;
 }
+
+.overflow--no{
+    overflow: hidden;
+}

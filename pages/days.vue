@@ -18,15 +18,18 @@
             <b-alert show variant="success" dismissible v-if="updateSpecialDaysResponse.result" class="alert--fixed error-center">
                         Updated Successfully
             </b-alert>     
+            <b-alert show variant="danger" dismissible v-if="!deleteSpecialDaysResponse" class="alert--fixed error-center" @dismissed="resetData">
+                        Database is empty
+            </b-alert>     
             <div class="col-md-8 offset-md-2">
                 <div class="row">
                     <div class="col-md-7 offset-md-2 pb-4">
                         <div class="row">
                             <div class="col-md-5">
-                                <p class="lead">Selected Year:</p>
+                                <p class="lead text-center">Selected Year:</p>
                             </div>
                             <div class="col-md-7">
-                                <b-form-select :options="options" v-model="selectedYear" @input="setYear" class="form-control"></b-form-select>
+                                <b-form-select :options="options" v-model="selectedYear" @input="setYear" class="form-control form-select--text" :select-size="2"></b-form-select>
                             </div>
                         </div>
                     </div>
@@ -99,7 +102,8 @@ export default {
             rowErrors:[],
             updateSpecialDaysResponse:{
                 result: false
-            }
+            },
+            deleteSpecialDaysResponse: true
 
         }
     },
@@ -123,8 +127,8 @@ export default {
 
         },
         arrYear(){
-            for (var n = 0; n <=6; n++){
-                this.options[n] =`${JSON.stringify((new Date().getFullYear())- 2 + n)}`
+            for (var n = 0; n <=50; n++){
+                this.options[n] =`${JSON.stringify((new Date().getFullYear())- 10 + n)}`
             }
         },
         warningAlert(){
@@ -220,6 +224,7 @@ export default {
             const delRes = await this.$axios.$get(`dashboard/delete_data/${this.selectedYear}`)
             console.log(delRes.state)
             console.log(delRes.msg)
+            this.deleteSpecialDaysResponse = delRes.state
             if(delRes.state){
                 this.dangerAlert()
                 this.change();
@@ -286,6 +291,10 @@ export default {
             this.rowErrors= []
             this.updateSpecialDaysResponse.result=false;
             
+        },
+        resetData(){
+            this.deleteSpecialDaysResponse= true
+            this.updateSpecialDaysResponse.result= false
         }
     },
     beforeMount(){
@@ -302,6 +311,11 @@ export default {
 </script>
 
 <style>
+
+.form-select--text{
+    text-align: center;
+    font-size: 1.2em;
+}
 
 /* .duplicate-feedback{
     width: 100%;

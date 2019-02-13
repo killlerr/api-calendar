@@ -3,7 +3,7 @@
         <navbar></navbar>
         <b-alert show variant="success" v-if="newUserState" class="alert--fixed error-center">
                     New User Added
-        </b-alert>           
+        </b-alert>                    
         <div class="row p-5 container-top">
             <div class="col-md-8 offset-md-2">
                 <table class="table table-striped">
@@ -48,8 +48,12 @@
                                                 <b-form-input v-validate="'required|email'" v-model="newUser.email"
                                                             type="email"
                                                             placeholder="Email"
-                                                            name="email"></b-form-input>
-                                                <div class="alert alert-danger w-100" v-show="errors.has('email')">{{ errors.first('email') }}</div>                                        
+                                                            name="email"
+                                                            @input="alreadyExisitsReset"></b-form-input>
+                                                <div class="alert alert-danger w-100" v-show="errors.has('email')">{{ errors.first('email') }}</div>
+                                                <b-alert show variant="danger" v-if="alreadyExisits" class="w-100">
+                                                            Email already exists
+                                                </b-alert>                                         
                                             </div>                                                                                                                                                                                             
                                             <div class="row py-2">
                                                 <b-form-input v-validate="'required|min:6'" v-model="newUser.password"
@@ -85,11 +89,22 @@ export default {
         return{
             users: [],
             newUser:{},
-            newUserState: false
+            newUserState: false,
+            alreadyExisits: false
         }
     },
     methods:{
         async onOk(evt){
+            evt.preventDefault()
+            this.$validator.validateAll().then((evt) => {
+                console.log('validation success')
+                console.log(evt)
+                if(!this.errors.items.length){
+                    this.addNewUser()
+                }
+            })
+        },
+        async addNewUser(){
             this.$axios.setHeader('Content-Type', 'application/json')    
             const newUserResponse = await this.$axios.post('auth/register', {
                 name : this.newUser.userName,
@@ -102,17 +117,9 @@ export default {
                     this.fetchData()
                     this.handleSubmit()
             }
-            console.log(newUserResponse.data.result)      
-            evt.preventDefault()
-            this.$validator.validateAll().then((evt) => {
-                console.log('validation success')
-                console.log(evt)
-                if(!this.errors.items.length){
-                    // this.handleSubmit()
-                }
-            },() =>{
-                console.log('validation failed')
-            })
+            console.log(newUserResponse.data.result)   
+            console.log(newUserResponse.data.msg)
+            this.alreadyExisits = newUserResponse.data.msg   
         },
         handleSubmit () {
             this.clearName()
@@ -124,6 +131,9 @@ export default {
         },
         onDOMClick(){
             this.newUserState = false
+        },
+        alreadyExisitsReset(){
+            this.alreadyExisits = false
         },
         async fetchData() {
             this.$axios.setHeader('Content-Type', 'application/json')          

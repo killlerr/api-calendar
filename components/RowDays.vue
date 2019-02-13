@@ -7,9 +7,8 @@
         ></flat-pickr>
         <div class="invalid-feedback display-true" @onUpdate="checkForm ">
             <div v-show="rowErrors.length" class="pmb-0 alert alert-danger">
-                <!-- <ul class="p-0 pmb-0"> -->
-                <p class="p-0 pmb-0" v-for="(error, index) in rowErrors" :key="index">{{ error }}</p>
-                <!-- </ul> -->
+                <!-- <p class="p-0 pmb-0" v-for="(error, index) in rowErrors" :key="index">{{ error }}</p> -->
+                <p class="p-0 pmb-0">Date required.</p>
             </div> 
         </div>
         </td>
