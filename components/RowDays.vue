@@ -1,16 +1,16 @@
 <template>
     <!-- <keep-alive> -->
     <tr>
-        <th scope="row">{{date.id}}</th>
+        <!-- <th scope="row">{{date.id}}</th> -->
         <td>{{date.name}}</td>
         <td><flat-pickr v-model="dateDP.date" class="form-control" :config="config" placeholder="Select date"  @on-close="onClose" @on-change="handleChange" required
         ></flat-pickr>
-        <div class="invalid-feedback pl-3 display-true" @onUpdate="checkForm ">
-            <p v-if="errors.length" class="pmb-0">
-                <ul class="p-0 pmb-0">
-                <li v-for="(error, index) in errors" :key="index">{{ error }}</li>
-                </ul>
-            </p> 
+        <div class="invalid-feedback display-true" @onUpdate="checkForm ">
+            <div v-show="errors.length" class="pmb-0 alert alert-danger">
+                <!-- <ul class="p-0 pmb-0"> -->
+                <p class="p-0 pmb-0" v-for="(error, index) in errors" :key="index">{{ error }}</p>
+                <!-- </ul> -->
+            </div> 
         </div>
         </td>
         <td><b-form-checkbox

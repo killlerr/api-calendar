@@ -2,10 +2,10 @@
     <div class="container">
         <navbar></navbar>
         <div class="row p-5 container-top">
-            <SuccessAlert></SuccessAlert>
-            <DangerAlert></DangerAlert>
+            <!-- <SuccessAlert></SuccessAlert>
+            <DangerAlert></DangerAlert> -->
             <!-- <WarningAlert></WarningAlert> -->
-            <b-alert class="alert--fixed" show variant="danger" v-if="errors.length">
+            <b-alert class="alert--fixed" dismissible show variant="danger" v-if="errors.length">
                 <span class="duplicate-feedback pl-3 display-true">
                     <p v-if="errors.length" class="pmb-0">
                         <ul class="p-0 pmb-0">
@@ -34,7 +34,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                        <th scope="col">#</th>
+                        <!-- <th scope="col">#</th> -->
                         <th scope="col">Special Day</th>
                         <th scope="col">Date*</th>
                         <th scope="col">Visibility</th>
@@ -287,7 +287,7 @@ export default {
 
 <style>
 
-.duplicate-feedback{
+/* .duplicate-feedback{
     width: 100%;
     margin-top: 0.25rem;
     font-size: 90%;
@@ -298,5 +298,5 @@ export default {
 .error-center{
     text-align: center;
     list-style-type: none;
-}
+} */
 </style>

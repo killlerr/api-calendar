@@ -32,41 +32,44 @@
                         <b-btn v-b-modal.modal1 class="w-100">New User</b-btn>
 
                         <!-- Modal Component -->
-                        <b-modal id="modal1" title="New User" class="text-dark" ok-title="Submit" ok-only @ok="onOk">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-8 offset-md-2">
-                                        <div class="row py-2">
-                                            <b-form-input v-validate="'required'" v-model="newUser.userName"
-                                                        type="text"
-                                                        placeholder="User name"
-                                                        name="name"></b-form-input>
-                                            <div class="alert alert-danger w-100" v-show="errors.has('name')">{{ errors.first('name') }}</div>                                        
-                                        </div>                                                                             
-                                        <div class="row py-2">
-                                            <b-form-input v-validate="'required|email'" v-model="newUser.email"
-                                                        type="email"
-                                                        placeholder="Email"
-                                                        name="email"></b-form-input>
-                                            <div class="alert alert-danger w-100" v-show="errors.has('email')">{{ errors.first('email') }}</div>                                        
-                                        </div>                                                                                                                                                                                             
-                                        <div class="row py-2">
-                                            <b-form-input v-validate="'required|min:6'" v-model="newUser.password"
-                                                        type="password"
-                                                        placeholder="Password"
-                                                        name="password"></b-form-input>
-                                            <div class="alert alert-danger w-100" v-show="errors.has('password')">{{ errors.first('password') }}</div>                                        
-                                        </div>                                                                             
-                                        <div class="row py-2">
-                                            <b-form-input v-validate="'required|confirmed:password'" v-model="newUser.confirmPassword"
-                                                        type="password"
-                                                        placeholder="Confirm Password"
-                                                        name="confirmPassword"></b-form-input>
-                                            <div class="alert alert-danger w-100" v-show="errors.has('confirmPassword')">{{ errors.first('confirmPassword') }}</div>                                                                                                                  
-                                        </div>                                                                             
+                        <b-modal id="modal1" title="New User" ref="modal" class="text-dark" ok-title="Submit" ok-only @ok="onOk">
+                            <form @submit.stop.prevent="handleSubmit">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-8 offset-md-2">
+                                            <div class="row py-2">
+                                                <b-form-input v-validate="'required'" v-model="newUser.userName"
+                                                            type="text"
+                                                            placeholder="User name"
+                                                            name="name"></b-form-input>
+                                                <div class="alert alert-danger w-100" v-show="errors.has('name')">{{ errors.first('name') }}</div>                                        
+                                            </div>                                                                             
+                                            <div class="row py-2">
+                                                <b-form-input v-validate="'required|email'" v-model="newUser.email"
+                                                            type="email"
+                                                            placeholder="Email"
+                                                            name="email"></b-form-input>
+                                                <div class="alert alert-danger w-100" v-show="errors.has('email')">{{ errors.first('email') }}</div>                                        
+                                            </div>                                                                                                                                                                                             
+                                            <div class="row py-2">
+                                                <b-form-input v-validate="'required|min:6'" v-model="newUser.password"
+                                                            ref="password"
+                                                            type="password"
+                                                            placeholder="Password"
+                                                            name="password"></b-form-input>
+                                                <div class="alert alert-danger w-100" v-show="errors.has('password')">{{ errors.first('password') }}</div>                                        
+                                            </div>                                                                             
+                                            <div class="row py-2">
+                                                <b-form-input v-validate="'required|confirmed:password'" v-model="newUser.confirmPassword"
+                                                            type="password"
+                                                            placeholder="Confirm Password"
+                                                            name="confirmPassword"></b-form-input>
+                                                <div class="alert alert-danger w-100" v-show="errors.has('confirmPassword')">{{ errors.first('confirmPassword') }}</div>                                                                                                                  
+                                            </div>                                                                             
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </b-modal>
                     </div>
                 </div>
@@ -80,23 +83,13 @@ export default {
     // auth: false,
     data(){
         return{
-            users: [
-            {
-                id: 1,
-                name: 'test 1',
-                email: 'test@gmail.com'   
-            },
-            {
-                id: 2,
-                name: 'test 2',
-                email: 'abc@arimac.lk'  
-            }],
+            users: [],
             newUser:{},
             newUserState: false
         }
     },
     methods:{
-        async onOk(){
+        async onOk(evt){
             this.$axios.setHeader('Content-Type', 'application/json')    
             const newUserResponse = await this.$axios.post('auth/register', {
                 name : this.newUser.userName,
@@ -107,8 +100,39 @@ export default {
             if(newUserResponse.data.result === "user_registration_is_successful"){
                     this.newUserState = true
                     this.fetchData()
+                    this.handleSubmit()
             }
-            console.log(newUserResponse.data.result)    
+            console.log(newUserResponse.data.result)      
+            evt.preventDefault()
+            this.$validator.validateAll().then((evt) => {
+                console.log('validation success')
+                console.log(evt)
+                if(!this.errors.items.length){
+                    // this.handleSubmit()
+                }
+            },() =>{
+                console.log('validation failed')
+            })
+            // this.$axios.setHeader('Content-Type', 'application/json')    
+            // const newUserResponse = await this.$axios.post('auth/register', {
+            //     name : this.newUser.userName,
+            //     email : this.newUser.email,
+            //     password : this.newUser.password,
+            //     confirm_password : this.newUser.confirmPassword
+            // })
+            // if(newUserResponse.data.result === "user_registration_is_successful"){
+            //         this.newUserState = true
+            //         this.fetchData()
+            // }
+            // console.log(newUserResponse.data.result)    
+        },
+        handleSubmit () {
+            this.clearName()
+            this.$refs.modal.hide()
+        },
+        clearName() {
+            this.newUser= {}
+            this.errors.items = []
         },
         onDOMClick(){
             this.newUserState = false

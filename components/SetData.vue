@@ -5,11 +5,11 @@
                 <div class="row p-3">
                     <h3>Set start year and end year on database<b-badge>Overwrite databse</b-badge></h3>
                     <div class="col-md-6 d-flex">
-                        <label></label>Start Year: &nbsp</label>
+                        <label>Start Year: &nbsp;</label>
                         <b-form-select v-bind="selected" :options="options" class="mb-3" />
                     </div>
                     <div class="col-md-6 d-flex">
-                        <label>End Year: &nbsp</label>
+                        <label>End Year: &nbsp;</label>
                         <b-form-select v-bind="selected" :options="options" class="mb-3" />                    </div>
                 </div>
                 <div class="row p-3">
@@ -144,15 +144,6 @@ export default {
             console.log(this.state.date);
         },
 
-    },
-    created(){
-            var today = new Date().getFullYear();
-            // var years = [];
-            // this.years[0] = today - 1;
-            // this.years[1] = today;
-            // this.years[2] = today + 1;
-
-            // console.log(years[0],years[1],years[2])
     }
 }
 </script>

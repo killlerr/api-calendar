@@ -9,7 +9,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                        <th scope="col">#</th>
+                        <!-- <th scope="col">#</th> -->
                         <th scope="col">Special Day</th>
                         <th scope="col">Image</th>
                         <th scope="col">Description Sinhala</th>

@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <th scope="row">{{childData.id}}</th>
+        <!-- <th scope="row">{{childData.id}}</th> -->
         <td>{{childData.name}}</td>
         <!-- <td>
             <div>

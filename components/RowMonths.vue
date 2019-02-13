@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <th scope="row">{{month.id}}</th>
+        <!-- <th scope="row">{{month.id}}</th> -->
         <td>{{month.name}}</td>
         <td>
             <div>

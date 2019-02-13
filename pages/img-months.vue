@@ -7,7 +7,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                        <th scope="col">#</th>
+                        <!-- <th scope="col">#</th> -->
                         <th scope="col">Month</th>
                         <th scope="col">Image</th>
                         </tr>
