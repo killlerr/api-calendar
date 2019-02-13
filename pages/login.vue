@@ -13,8 +13,8 @@
                     <b-input class="mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" placeholder="Email" type="email" v-model="form.user"/>
                     
                     <label class="sr-only" for="inlineFormInputGroupUsername2">Password</label>
-                    <b-input-group left="@" class="mb-2 mr-sm-2 mb-sm-0">
-                        <b-input id="inlineFormInputGroupUsername2" placeholder="Password" type="password" v-model="form.password" />
+                    <b-input-group left="@" class="mb-2 mr-sm-2 mb-sm-0" @keyup.enter="onClick">
+                        <b-input id="inlineFormInputGroupUsername2" placeholder="Password" type="password" v-model="form.password"/>
                     </b-input-group>
 
                     <!-- <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0">Remember me</b-form-checkbox> -->
