@@ -113,18 +113,6 @@ export default {
             },() =>{
                 console.log('validation failed')
             })
-            // this.$axios.setHeader('Content-Type', 'application/json')    
-            // const newUserResponse = await this.$axios.post('auth/register', {
-            //     name : this.newUser.userName,
-            //     email : this.newUser.email,
-            //     password : this.newUser.password,
-            //     confirm_password : this.newUser.confirmPassword
-            // })
-            // if(newUserResponse.data.result === "user_registration_is_successful"){
-            //         this.newUserState = true
-            //         this.fetchData()
-            // }
-            // console.log(newUserResponse.data.result)    
         },
         handleSubmit () {
             this.clearName()

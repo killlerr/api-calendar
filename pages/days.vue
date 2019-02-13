@@ -2,20 +2,20 @@
     <div class="container">
         <navbar></navbar>
         <div class="row p-5 container-top">
-            <!-- <SuccessAlert></SuccessAlert>
-            <DangerAlert></DangerAlert> -->
+            <SuccessAlert></SuccessAlert>
+            <DangerAlert></DangerAlert>
             <!-- <WarningAlert></WarningAlert> -->
-            <b-alert class="alert--fixed" dismissible show variant="danger" v-if="errors.length">
+            <b-alert class="alert--fixed" dismissible show variant="danger" v-if="rowErrors.length">
                 <span class="duplicate-feedback pl-3 display-true">
-                    <p v-if="errors.length" class="pmb-0">
+                    <p v-if="rowErrors.length" class="pmb-0">
                         <ul class="p-0 pmb-0">
-                        <li v-for="(error, index) in errors" :key="index" class="error-center">{{ error }}</li>
+                        <li v-for="(error, index) in rowErrors" :key="index" class="error-center">{{ error }}</li>
                         </ul>
                         <!-- {{duplicate}} -->
                     </p> 
                 </span>       
             </b-alert>     
-            <b-alert show variant="success" v-if="updateSpecialDaysResponse.result" class="alert--fixed error-center">
+            <b-alert show variant="success" dismissible v-if="updateSpecialDaysResponse.result" class="alert--fixed error-center">
                         Updated Successfully
             </b-alert>     
             <div class="col-md-8 offset-md-2">
@@ -96,7 +96,7 @@ export default {
             },
             object: {},
             duplicate: false,
-            errors:[],
+            rowErrors:[],
             updateSpecialDaysResponse:{
                 result: false
             }
@@ -207,7 +207,9 @@ export default {
                         // console.log(object)
                         const updateSpecialDaysResponse = await this.$axios.$post(`dashboard/update_special_dates`,object)
                         this.updateSpecialDaysResponse.result = updateSpecialDaysResponse.result
+                        console.log('updateSpecialDaysResponse.result')      
                         console.log(updateSpecialDaysResponse.result)      
+                        console.log('updateSpecialDaysResponse.msg')
                         console.log(updateSpecialDaysResponse.msg)
                         this.change();      
                 }            
@@ -244,30 +246,44 @@ export default {
 
                     if (date === sec_date) {
                         console.log('date === sec_date')
-                        if (is_main === sec_is_main) {
-                            console.log('is_main === sec_is_main')
+                        if (is_main === true && sec_is_main === true) {
+                            console.log('is_main === true && sec_is_main === true')
                             this.duplicate = true;
-                            this.errors.push("Date Duplication! Only one date must be set as visible")
-                            return false
+                            this.rowErrors.push("Date Duplication! Only one date must be set as visible")
                             // break;
+                            return false
                         }
+                        else if (is_main === false && sec_is_main === false) {
+                            console.log('is_main === false && sec_is_main === false')
+                            this.duplicate = true;
+                            this.rowErrors.push("One date must be set as visible")
+                            // break;
+                            return false
+                        }
+                        else if (is_main === sec_is_main) {
+                                 console.log('is_main ===  sec_is_main ')
+                                this.duplicate = true;
+                                this.rowErrors.push("Sorry! 3 equal dates are not eligible to input in the current database structure")
+                                return false
+                        }
+                        
                     }
                 }
                 if(this.duplicate == true) {
                     // break;
-                    this.errors.push("Date Duplication! Only one date must be set as visible")                    
+                    this.rowErrors.push("Date Duplication! Only one date must be set as visible")                    
                     console.log('this.duplicate == true')
                     return false
                 }
             }
             if(this.duplicate == false){
                 console.log('this.duplicate == false')
-                this.errors=[];
+                this.rowErrors=[];
                 return true
             }
         },
         noErrors(){
-            this.errors= []
+            this.rowErrors= []
             this.updateSpecialDaysResponse.result=false;
             
         }

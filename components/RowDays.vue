@@ -6,9 +6,9 @@
         <td><flat-pickr v-model="dateDP.date" class="form-control" :config="config" placeholder="Select date"  @on-close="onClose" @on-change="handleChange" required
         ></flat-pickr>
         <div class="invalid-feedback display-true" @onUpdate="checkForm ">
-            <div v-show="errors.length" class="pmb-0 alert alert-danger">
+            <div v-show="rowErrors.length" class="pmb-0 alert alert-danger">
                 <!-- <ul class="p-0 pmb-0"> -->
-                <p class="p-0 pmb-0" v-for="(error, index) in errors" :key="index">{{ error }}</p>
+                <p class="p-0 pmb-0" v-for="(error, index) in rowErrors" :key="index">{{ error }}</p>
                 <!-- </ul> -->
             </div> 
         </div>
@@ -36,7 +36,7 @@ export default {
                 maxDate: new Date().fp_incr(-1), // 14 days from now
                 dateFormat: "Y-m-d",
             },
-            errors:[]
+            rowErrors:[]
         }
     },
     // computed: {
@@ -77,7 +77,7 @@ export default {
     methods: {
         handleChange() {
             // this.checkForm();
-            // console.log(this.errors)
+            // console.log(this.rowErrors)
             console.log('change')
             this.$emit('select', {
                 id: this.dateDP.id,
@@ -91,18 +91,18 @@ export default {
             console.log('checkForm')
             if(!this.dateDP.date){     
                 console.log('no date')
-                this.errors.push("Date required.");
+                this.rowErrors.push("Date required.");
             }
-            if (!this.errors.length) {
+            if (!this.rowErrors.length) {
                 console.log('no length')
                 return true;
             }
         },
         onClose(){
             console.log('onCLose')
-            console.log(this.errors)
-            this.errors = []
-            console.log(this.errors)
+            console.log(this.rowErrors)
+            this.rowErrors = []
+            console.log(this.rowErrors)
         }
     },
     components: {
