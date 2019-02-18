@@ -14,7 +14,9 @@ module.exports = {
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.0.8/css/all.css'},
+      {rel: 'script', href: 'https://cdnjs.cloudflare.com/ajax/libs/split.js/1.3.5/split.min.js'},
     ]
   },
 
@@ -43,7 +45,9 @@ module.exports = {
     '~/plugins/successAlert.js',
     '~/plugins/warningAlert.js',
     '~/plugins/vee.js',
-    // '~/plugins/hub.js',
+    '~/plugins/fa.js',
+    '~/plugins/tab.js',
+
     '~/plugins/axios'
 
   ],
@@ -71,8 +75,14 @@ module.exports = {
         },
         // tokenRequired: true,
         // tokenType: 'bearer',
-      },
-    }
+      }
+    },
+    // redirect: {
+    //   login: '/login',
+    //   logout: '/',
+    //   callback: '/login',
+    //   home: '/new-days'
+    // }    
   },
 
   axios: {

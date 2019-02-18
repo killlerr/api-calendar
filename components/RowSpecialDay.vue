@@ -11,7 +11,7 @@
             <div>
                 <div class="file-upload-form">
                     <b-form-file class="overflow--no" type="file" id="file" ref="fileDay" @change="onFileChange" :state="Boolean(true)" placeholder="Choose a file..."></b-form-file>
-                    <b-progress :value="childData.count" variant="info" show-progress class="mt-1"></b-progress>                    
+                    <b-progress :value="childData.count" show-progress class="mt-1 progress__color"></b-progress>                    
                 </div>
             </div>
         </td>
@@ -22,7 +22,7 @@
                                 placeholder="Enter something"
                                 :rows="2"
                                 :max-rows="6"
-                                @input="$emit('inputSi', $event)"
+                                @input="$emit('inputSi', $event)"z
                                 >
                 </b-form-textarea>
             </div>
@@ -34,7 +34,8 @@
                                 placeholder="Enter something"
                                 :rows="2"
                                 :max-rows="6"
-                                @input="$emit('inputEn', $event)">
+                                @input="$emit('inputEn', $event)"
+                                >
                 </b-form-textarea>
             </div>
         </td>
@@ -45,7 +46,8 @@
                                 placeholder="Enter something"
                                 :rows="2"
                                 :max-rows="6"
-                                @input="$emit('inputTa', $event)">
+                                @input="$emit('inputTa', $event)"
+                                >
                 </b-form-textarea>
             </div>
         </td>

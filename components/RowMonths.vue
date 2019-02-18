@@ -6,7 +6,7 @@
             <div>
                 <div class="file-upload-form">
                     <b-form-file class="overflow--no" type="file" id="file" ref="fileMonth" :state="Boolean(true)" placeholder="Choose a file..." @change="onChange"></b-form-file>
-                    <b-progress :value="month.counter" :max="max" variant="info" show-progress class="mt-1"></b-progress>                    
+                    <b-progress :value="month.counter" :max="max" show-progress class="mt-1 progress__color"></b-progress>                    
                 </div>
             </div>
         </td>
@@ -36,4 +36,8 @@ export default {
     }
 }
 </script>
+
+<style>
+
+</style>
 

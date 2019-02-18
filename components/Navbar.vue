@@ -1,55 +1,65 @@
 <template>
-<div class="row">
-    <b-navbar toggleable="md" type="dark" class="ada-dawasa-pink" variant="info">
-
-    <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-
-    <b-navbar-brand to="/"><b-img src="/app-icon.png" fluid alt="icon" class="app-icon-wrap"/></b-navbar-brand>
-
-        <b-collapse is-nav id="nav_collapse">
-
-            <!-- Right aligned nav items -->
-            <b-navbar-nav class="ml-auto">
-
-            <b-navbar-nav>
-                <b-nav-item to="/">Home</b-nav-item>
-            </b-navbar-nav>
-
-            <b-nav-item-dropdown text='User' right>
-                <b-dropdown-item to="/profile">Profile</b-dropdown-item>
-                <b-dropdown-item @click="onLogout">Signout</b-dropdown-item>
-            </b-nav-item-dropdown>
-            </b-navbar-nav>
-
-        </b-collapse>
+  <div class="row">
+    <b-navbar type="dark" class="ada-dawasa-pink">
+      <b-navbar-brand to="/">
+        <!-- <b-img src="/app-icon.png" fluid alt="icon" class="app-icon-wrap"/> -->
+        <span class="mx-4 icon--pointer"><i class="far fa-calendar-alt fa-sm fa-icon__nav"></i></span>
+      </b-navbar-brand>
+      <b-navbar-nav class="ml-auto nav--inline">
+        <div class="nav--inline">
+          <b-navbar-brand to="/profile">
+            <span class="mx-2 icon--pointer">
+              <i class="far fa-user fa-sm fa-icon__nav"></i>
+            </span>
+          </b-navbar-brand>
+          <b-navbar-brand @click="onLogout">
+            <span class="mx-2 icon--pointer">
+              <i class="fas fa-sign-out-alt fa-sm fa-icon__nav"></i>
+            </span>
+          </b-navbar-brand>
+        </div>
+      </b-navbar-nav>
     </b-navbar>
-</div>
+  </div>
 </template>
 
 <script>
 export default {
-  methods:{
-    async onLogout(){
-        await this.$auth.logout()
-        this.$router.push("/login")
+  methods: {
+    async onLogout() {
+      await this.$auth.logout();
+      this.$router.push("/login");
     }
-  } 
-}
+  }
+};
 </script>
 
 
 <style>
-.navbar{
-    height: 8vh;
-    width: 100%;
+.navbar {
+  width: 100%;
 }
 
-.app-icon-wrap{
-    width: 3rem;
+.app-icon-wrap {
+  width: 3rem;
 }
 
-.ada-dawasa-pink{
-    background-color: var(--ada-dawasa-pink);
+.ada-dawasa-pink {
+  background-color: var(--creative-black);
+
+}
+
+.fa-icon__nav {
+  margin-top: 12px;
+  color: white;
+}
+
+.nav--inline {
+  display: flex;
+}
+
+.icon--pointer{
+  cursor: pointer;
 }
 </style>
 
