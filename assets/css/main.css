@@ -24,9 +24,14 @@
 }
 
 html, body {
-    width: 100%;
+    /* width: 100%; */
     overflow-x: hidden;
-    padding-bottom: 60px;
+    /* padding-bottom: 60px; */
+    /* box-sizing: border-box; */
+}
+
+.modal-open {
+    padding: 0 !important;
 }
 
 .container-top{
@@ -100,7 +105,11 @@ html, body {
     padding: 0.5rem;
     border: 0;
     height:auto;
-    color: #E1E2E2;    
+    color: #E1E2E2; 
+    /* position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;    */
 }
 
 .nav__style .nav-link.active{
@@ -127,4 +136,13 @@ html, body {
 
 .progress__color .progress-bar{
     background-color: #4BAA7D;
+}
+
+.force-no-active a{
+    font-weight: 300 !important;
+    border: 0 !important;
+}
+
+.page-main-padding{
+    padding-bottom: 80px;
 }

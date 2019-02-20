@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div class="page-main-padding">
         <navbar></navbar>
         <div>
             <b-nav class="nav__style" fill tabs>
-                <b-nav-item to="/">Days</b-nav-item>
+                <b-nav-item to="/" class="force-no-active">Days</b-nav-item>
                 <b-nav-item to="/new-months">Months</b-nav-item>
                 <b-nav-item to="/new-special-days">Special dates</b-nav-item>
             </b-nav>        
@@ -169,8 +169,9 @@ export default {
     border-radius: 0
 }
 #modal1 .modal-header h5{
-    margin: auto;
-    vertical-align: middle;
+    /* margin: auto;
+    vertical-align: middle; */
     position: absolute;
+    left: 40%;
 }
 </style>

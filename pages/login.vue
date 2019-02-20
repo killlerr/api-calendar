@@ -1,29 +1,31 @@
 <template>
-    <div class="login__background">
-        <div class="container" @click="onDOMClick">
-            <div class="alert alert-danger alert--fixed" v-show="loginErr">Login Failed</div>
-            <div class="b-form--center">
-                <div class="">
-                        <div class="p-5">
-                            <b-img src="/app-icon.png" fluid alt="icon" class="app-icon-wrap--login"/>
-                        </div>
-                </div>
-                <div class="p-5">
-                    <b-form inline>
-                        <label class="sr-only" for="inlineFormInputName2">Email</label>
-                        <b-input class="mb-2 mr-sm-2 mb-sm-0 b-r-0 tff" id="inlineFormInputName2" placeholder="Email" type="email" v-model="form.user"/>
-                        
-                        <label class="sr-only" for="inlineFormInputGroupUsername2">Password</label>
-                        <b-input-group left="@" class="mb-2 mr-sm-2 mb-sm-0" @keyup.enter="onClick">
-                            <b-input id="inlineFormInputGroupUsername2" class="b-r-0 tff" placeholder="Password" type="password" v-model="form.password"/>
-                        </b-input-group>
+    <div id="main-login">
+        <div class="login__background">
+            <div class="container" @click="onDOMClick">
+                <div class="alert alert-danger alert--fixed" v-show="loginErr">Login Failed</div>
+                <div class="b-form--center">
+                    <div class="">
+                            <div class="p-5">
+                                <b-img src="/app-icon.png" fluid alt="icon" class="app-icon-wrap--login"/>
+                            </div>
+                    </div>
+                    <div class="p-5">
+                        <b-form inline>
+                            <label class="sr-only" for="inlineFormInputName2">Email</label>
+                            <b-input class="mb-2 mr-sm-2 mb-sm-0 b-r-0 tff" id="inlineFormInputName2" placeholder="Email" type="email" v-model="form.user"/>
+                            
+                            <label class="sr-only" for="inlineFormInputGroupUsername2">Password</label>
+                            <b-input-group left="@" class="mb-2 mr-sm-2 mb-sm-0" @keyup.enter="onClick">
+                                <b-input id="inlineFormInputGroupUsername2" class="b-r-0 tff" placeholder="Password" type="password" v-model="form.password"/>
+                            </b-input-group>
 
-                        <!-- <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0">Remember me</b-form-checkbox> -->
-                        <b-button variant="primary" @click="onClick" class="b-r-0 tff">Login</b-button>
-                    </b-form>
+                            <!-- <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0">Remember me</b-form-checkbox> -->
+                            <b-button variant="primary" @click="onClick" class="b-r-0 tff">Login</b-button>
+                        </b-form>
+                    </div>
                 </div>
-            </div>
-        </div>    
+            </div>    
+        </div>
     </div>
 </template>
 

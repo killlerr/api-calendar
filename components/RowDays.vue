@@ -55,7 +55,7 @@ export default {
     },
     mounted() {
         // console.log('Mounted')
-        this.dateDP = this.date;       
+        this.dateDP = this.date;    
     },
     beforeUpdate () {
         // console.log('beforeUpdate')

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="page-main-padding">
         <navbar></navbar>
         <div>
             <b-nav class="nav__style" fill tabs>

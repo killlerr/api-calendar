@@ -38,6 +38,10 @@ export default {
 <style>
 .navbar {
   width: 100%;
+  /* position: fixed;
+  top: 0;
+  left: 0;
+  right: 0; */
 }
 
 .app-icon-wrap {

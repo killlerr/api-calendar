@@ -16,18 +16,21 @@
             </div>
         </td>
         <td>
+        <b-collapse id="my-collapse-si" v-model="showCollapseSi">
             <div class="text-area-wrap">
                 <b-form-textarea id="textarea1"
                                 v-model="childData.description_si"
                                 placeholder="Enter something"
                                 :rows="2"
                                 :max-rows="6"
-                                @input="$emit('inputSi', $event)"z
+                                @input="$emit('inputSi', $event)"
                                 >
                 </b-form-textarea>
             </div>
+        </b-collapse>
         </td>
         <td>
+        <b-collapse id="my-collapse-en" v-model="showCollapseEn">
             <div class="text-area-wrap">
                 <b-form-textarea id="textarea2"
                                 v-model="childData.description_en"
@@ -38,8 +41,10 @@
                                 >
                 </b-form-textarea>
             </div>
+        </b-collapse>
         </td>
         <td>
+        <b-collapse id="my-collapse-ta" v-model="showCollapseTa">
             <div class="text-area-wrap">
                 <b-form-textarea id="textarea3"
                                 v-model="childData.description_ta"
@@ -50,6 +55,7 @@
                                 >
                 </b-form-textarea>
             </div>
+        </b-collapse>
         </td>
     </tr>
 </template>
@@ -61,7 +67,10 @@ export default {
         return{
             fileImg: '',
             counter: 0,
-            childData: ''
+            childData: '',
+            showCollapseSi: true,
+            showCollapseEn: true,
+            showCollapseTa: true,
         }
     },
     beforeMount() {
@@ -81,11 +90,12 @@ export default {
         //     this.$emit('infoDate', this.infoDate)
         // }
     },
-    // watch: {
-    //     infoDate(newValue) {
-    //         console.log(newValue)
-    //         this.counter = newValue.counter
-    //     }
+    // mounted() {
+    //     this.$root.$on('bv::collapse::state', (collapseId, isJustShown) => {
+    //         console.log('collapseId:', collapseId)
+    //         console.log('isJustShown:', isJustShown)
+    //     })
     // }
+
 }
 </script>
